@@ -104,8 +104,8 @@ The following digital signature algorithms from liboqs are supported by the fork
 <!--- OQS_TEMPLATE_FRAGMENT_LIST_SIGS_START -->
 - **CRYSTALS-Dilithium**:`dilithium2`\*, `dilithium3`\*, `dilithium5`\*
 - **Falcon**:`falcon512`\*, `falcon1024`\*
-- **SPHINCS-SHA2**:`sphincssha2128fsimple`\*, `sphincssha2128ssimple`\*, `sphincssha2192fsimple`\*, `sphincssha2192ssimple`, `sphincssha2256fsimple`, `sphincssha2256ssimple`
-- **SPHINCS-SHAKE**:`sphincsshake128fsimple`\*, `sphincsshake128ssimple`, `sphincsshake192fsimple`, `sphincsshake192ssimple`, `sphincsshake256fsimple`, `sphincsshake256ssimple`
+- **SPHINCS-SHA2**:`sphincssha2128fsimple`\*, `sphincssha2128ssimple`\*, `sphincssha2192fsimple`\*, `sphincssha2192ssimple`\*, `sphincssha2256fsimple`\*, `sphincssha2256ssimple`\*
+- **SPHINCS-SHAKE**:`sphincsshake128fsimple`\*, `sphincsshake128ssimple`\*, `sphincsshake192fsimple`\*, `sphincsshake192ssimple`\*, `sphincsshake256fsimple`\*, `sphincsshake256ssimple`\*
 <!--- OQS_TEMPLATE_FRAGMENT_LIST_SIGS_END -->
 
 The following hybrid algorithms are supported; they combine a quantum-safe algorithm listed above with a traditional digital signature algorithm (`<SIG>` is any one of the algorithms listed above):

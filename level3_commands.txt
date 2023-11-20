@@ -1,0 +1,195 @@
+level 3
+
+dilithium3
+
+apps/openssl req -x509 -new -newkey dilithium3 -keyout dilithium3_CA_key.pem -out dilithium3_CA.pem -days 365 -config apps/openssl.cnf
+
+apps/openssl req -new -newkey dilithium3 -keyout dilithium3_ica_key.pem -out dilithium3_ica.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in dilithium3_ica.csr -out dilithium3_ica.pem -CA dilithium3_CA.pem -CAkey dilithium3_CA_key.pem -CAcreateserial -days 365
+
+apps/openssl req -new -newkey dilithium3 -keyout dilithium3_srv_key.pem -out dilithium3_srv.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in dilithium3_srv.csr -out dilithium3_srv.pem -CA dilithium3_ica.pem -CAkey dilithium3_ica_key.pem -CAcreateserial -days 365
+
+cat dilithium3_ica.pem dilithium3_srv.pem > dilithium3_combined.pem
+
+apps/openssl x509 -pubkey -noout -in dilithium3_CA.pem  > dilithium3_CA_pubkey.pem
+apps/openssl x509 -pubkey -noout -in dilithium3_ica.pem  > dilithium3_ica_pubkey.pem
+apps/openssl x509 -pubkey -noout -in dilithium3_srv.pem  > dilithium3_srv_pubkey.pem
+
+
+bash new_sign.sh f0.zip f1.img.xz f2.zip dilithium3_CA_key.pem dilithium3_ica_key.pem dilithium3_srv_key.pem
+
+valgrind bash new_verify.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 dilithium3_CA_pubkey.pem dilithium3_ica_pubkey.pem dilithium3_srv_pubkey.pem dilithium3_CA.pem dilithium3_ica.pem dilithium3_combined.pem
+
+valgrind bash new_verify1.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 dilithium3_CA_pubkey.pem dilithium3_ica_pubkey.pem dilithium3_srv_pubkey.pem dilithium3_CA.pem dilithium3_ica.pem dilithium3_combined.pem
+
+---------------------------------
+
+-----------------------------------
+
+dilithium3+ SPHINCS+-SHAKE-192f-simple
+
+apps/openssl req -new -newkey sphincsshake192fsimple -keyout sphincsshake192fsimple_ica_key.pem -out sphincsshake192fsimple_ica.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in sphincsshake192fsimple_ica.csr -out sphincsshake192fsimple_ica.pem -CA dilithium3_CA.pem -CAkey dilithium3_CA_key.pem -CAcreateserial -days 365
+
+apps/openssl req -new -newkey sphincsshake192fsimple -keyout sphincsshake192fsimple_srv_key.pem -out sphincsshake192fsimple_srv.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in sphincsshake192fsimple_srv.csr -out sphincsshake192fsimple_srv.pem -CA sphincsshake192fsimple_ica.pem -CAkey sphincsshake192fsimple_ica_key.pem -CAcreateserial -days 365
+cat sphincsshake192fsimple_ica.pem sphincsshake192fsimple_srv.pem > sphincsshake192fsimple_combined.pem
+
+apps/openssl x509 -pubkey -noout -in sphincsshake192fsimple_ica.pem  > sphincsshake192fsimple_ica_pubkey.pem
+apps/openssl x509 -pubkey -noout -in sphincsshake192fsimple_srv.pem  > sphincsshake192fsimple_srv_pubkey.pem
+
+bash new_sign.sh f0.zip f1.img.xz f2.zip dilithium3_CA_key.pem sphincsshake192fsimple_ica_key.pem sphincsshake192fsimple_srv_key.pem
+
+valgrind bash new_verify.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 dilithium3_CA_pubkey.pem sphincsshake192fsimple_ica_pubkey.pem sphincsshake192fsimple_srv_pubkey.pem dilithium3_CA.pem sphincsshake192fsimple_ica.pem sphincsshake192fsimple_combined.pem
+
+valgrind bash new_verify1.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 dilithium3_CA_pubkey.pem sphincsshake192fsimple_ica_pubkey.pem sphincsshake192fsimple_srv_pubkey.pem dilithium3_CA.pem sphincsshake192fsimple_ica.pem sphincsshake192fsimple_combined.pem
+
+
+------------------------------
+
+dilithium3+ SPHINCS+-SHAKE-192s-simple
+
+apps/openssl req -new -newkey sphincsshake192ssimple -keyout sphincsshake192ssimple_ica_key.pem -out sphincsshake192ssimple_ica.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in sphincsshake192ssimple_ica.csr -out sphincsshake192ssimple_ica.pem -CA dilithium3_CA.pem -CAkey dilithium3_CA_key.pem -CAcreateserial -days 365
+
+apps/openssl req -new -newkey sphincsshake192ssimple -keyout sphincsshake192ssimple_srv_key.pem -out sphincsshake192ssimple_srv.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in sphincsshake192ssimple_srv.csr -out sphincsshake192ssimple_srv.pem -CA sphincsshake192ssimple_ica.pem -CAkey sphincsshake192ssimple_ica_key.pem -CAcreateserial -days 365
+cat sphincsshake192ssimple_ica.pem sphincsshake192ssimple_srv.pem > sphincsshake192ssimple_combined.pem
+
+apps/openssl x509 -pubkey -noout -in sphincsshake192ssimple_ica.pem  > sphincsshake192ssimple_ica_pubkey.pem
+apps/openssl x509 -pubkey -noout -in sphincsshake192ssimple_srv.pem  > sphincsshake192ssimple_srv_pubkey.pem
+
+bash new_sign.sh f0.zip f1.img.xz f2.zip dilithium3_CA_key.pem sphincsshake192ssimple_ica_key.pem sphincsshake192ssimple_srv_key.pem
+
+valgrind bash new_verify.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 dilithium3_CA_pubkey.pem sphincsshake192ssimple_ica_pubkey.pem sphincsshake192ssimple_srv_pubkey.pem dilithium3_CA.pem sphincsshake192ssimple_ica.pem sphincsshake192ssimple_combined.pem
+
+valgrind bash new_verify1.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 dilithium3_CA_pubkey.pem sphincsshake192ssimple_ica_pubkey.pem sphincsshake192ssimple_srv_pubkey.pem dilithium3_CA.pem sphincsshake192ssimple_ica.pem sphincsshake192ssimple_combined.pem
+
+===============================================================
+
+SPHINCS+-SHAKE-128f-simple
+
+apps/openssl req -x509 -new -newkey sphincsshake192fsimple -keyout sphincsshake192fsimple_CA_key.pem -out sphincsshake192fsimple_CA.pem -days 365 -config apps/openssl.cnf
+
+apps/openssl req -new -newkey sphincsshake192fsimple -keyout sphincsshake192fsimple_ica_key.pem -out sphincsshake192fsimple_ica.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in sphincsshake192fsimple_ica.csr -out sphincsshake192fsimple_ica.pem -CA sphincsshake192fsimple_CA.pem -CAkey sphincsshake192fsimple_CA_key.pem -CAcreateserial -days 365
+
+apps/openssl req -new -newkey sphincsshake192fsimple -keyout sphincsshake192fsimple_srv_key.pem -out sphincsshake192fsimple_srv.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in sphincsshake192fsimple_srv.csr -out sphincsshake192fsimple_srv.pem -CA sphincsshake192fsimple_ica.pem -CAkey sphincsshake192fsimple_ica_key.pem -CAcreateserial -days 365
+cat sphincsshake192fsimple_ica.pem sphincsshake192fsimple_srv.pem > sphincsshake192fsimple_combined.pem
+
+apps/openssl x509 -pubkey -noout -in sphincsshake192fsimple_CA.pem  > sphincsshake192fsimple_CA_pubkey.pem
+apps/openssl x509 -pubkey -noout -in sphincsshake192fsimple_ica.pem  > sphincsshake192fsimple_ica_pubkey.pem
+apps/openssl x509 -pubkey -noout -in sphincsshake192fsimple_srv.pem  > sphincsshake192fsimple_srv_pubkey.pem
+
+
+bash new_sign.sh f0.zip f1.img.xz f2.zip sphincsshake192fsimple_CA_key.pem sphincsshake192fsimple_ica_key.pem sphincsshake192fsimple_srv_key.pem
+
+valgrind bash new_verify.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 sphincsshake192fsimple_CA_pubkey.pem sphincsshake192fsimple_ica_pubkey.pem sphincsshake192fsimple_srv_pubkey.pem sphincsshake192fsimple_CA.pem sphincsshake192fsimple_ica.pem sphincsshake192fsimple_combined.pem
+
+valgrind bash new_verify1.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 sphincsshake192fsimple_CA_pubkey.pem sphincsshake192fsimple_ica_pubkey.pem sphincsshake192fsimple_srv_pubkey.pem1 sphincsshake192fsimple_CA.pem sphincsshake192fsimple_ica.pem sphincsshake192fsimple_combined.pem
+
+-----------------------------------------------
+
+SPHINCS+-SHAKE-128f-simple + dilithium3
+
+apps/openssl req -new -newkey dilithium3 -keyout dilithium3_ica_key.pem -out dilithium3_ica.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in dilithium3_ica.csr -out dilithium3_ica.pem -CA sphincsshake192fsimple_CA.pem -CAkey sphincsshake192fsimple_CA_key.pem -CAcreateserial -days 365
+apps/openssl req -new -newkey dilithium3 -keyout dilithium3_srv_key.pem -out dilithium3_srv.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in dilithium3_srv.csr -out dilithium3_srv.pem -CA dilithium3_ica.pem -CAkey dilithium3_ica_key.pem -CAcreateserial -days 365
+cat dilithium3_ica.pem dilithium3_srv.pem > dilithium3_combined.pem
+
+apps/openssl x509 -pubkey -noout -in dilithium3_ica.pem  > dilithium3_ica_pubkey.pem
+apps/openssl x509 -pubkey -noout -in dilithium3_srv.pem  > dilithium3_srv_pubkey.pem
+
+bash new_sign.sh f0.zip f1.img.xz f2.zip sphincsshake192fsimple_CA_key.pem dilithium3_ica_key.pem dilithium3_srv_key.pem
+
+valgrind bash new_verify.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 sphincsshake192fsimple_CA_pubkey.pem dilithium3_ica_pubkey.pem dilithium3_srv_pubkey.pem sphincsshake192fsimple_CA.pem dilithium3_ica.pem dilithium3_combined.pem
+
+valgrind bash new_verify1.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 sphincsshake192fsimple_CA_pubkey.pem dilithium3_ica_pubkey.pem dilithium3_srv_pubkey.pem sphincsshake192fsimple_CA.pem dilithium3_ica.pem dilithium3_combined.pem
+
+------------------------------------------------------------------
+
+SPHINCS+-SHAKE-128f-simple + SPHINCS+-SHAKE-128s-simple
+
+apps/openssl req -new -newkey sphincsshake192ssimple -keyout sphincsshake192ssimple_ica_key.pem -out sphincsshake192ssimple_ica.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in sphincsshake192ssimple_ica.csr -out sphincsshake192ssimple_ica.pem -CA sphincsshake192fsimple_CA.pem -CAkey sphincsshake192fsimple_CA_key.pem -CAcreateserial -days 365
+apps/openssl req -new -newkey sphincsshake192ssimple -keyout sphincsshake192ssimple_srv_key.pem -out sphincsshake192ssimple_srv.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in sphincsshake192ssimple_srv.csr -out sphincsshake192ssimple_srv.pem -CA sphincsshake192ssimple_ica.pem -CAkey sphincsshake192ssimple_ica_key.pem -CAcreateserial -days 365
+cat sphincsshake192ssimple_ica.pem sphincsshake192ssimple_srv.pem > sphincsshake192ssimple_combined.pem
+
+apps/openssl x509 -pubkey -noout -in sphincsshake192ssimple_ica.pem  > sphincsshake192ssimple_ica_pubkey.pem
+apps/openssl x509 -pubkey -noout -in sphincsshake192ssimple_srv.pem  > sphincsshake192ssimple_srv_pubkey.pem
+
+bash new_sign.sh f0.zip f1.img.xz f2.zip sphincsshake192fsimple_CA_key.pem sphincsshake192ssimple_ica_key.pem sphincsshake192ssimple_srv_key.pem
+
+valgrind bash new_verify.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 sphincsshake192fsimple_CA_pubkey.pem sphincsshake192ssimple_ica_pubkey.pem sphincsshake192ssimple_srv_pubkey.pem sphincsshake192fsimple_CA.pem sphincsshake192ssimple_ica.pem sphincsshake192ssimple_combined.pem
+
+valgrind bash new_verify1.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 sphincsshake192fsimple_CA_pubkey.pem sphincsshake192ssimple_ica_pubkey.pem sphincsshake192ssimple_srv_pubkey.pem sphincsshake192fsimple_CA.pem sphincsshake192ssimple_ica.pem sphincsshake192ssimple_combined.pem
+
+==================================================================
+
+SPHINCS+-SHAKE-128s-simple
+
+apps/openssl req -x509 -new -newkey sphincsshake192ssimple -keyout sphincsshake192ssimple_CA_key.pem -out sphincsshake192ssimple_CA.pem -days 365 -config apps/openssl.cnf
+
+apps/openssl req -new -newkey sphincsshake192ssimple -keyout sphincsshake192ssimple_ica_key.pem -out sphincsshake192ssimple_ica.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in sphincsshake192ssimple_ica.csr -out sphincsshake192ssimple_ica.pem -CA sphincsshake192ssimple_CA.pem -CAkey sphincsshake192ssimple_CA_key.pem -CAcreateserial -days 365
+
+apps/openssl req -new -newkey sphincsshake192ssimple -keyout sphincsshake192ssimple_srv_key.pem -out sphincsshake192ssimple_srv.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in sphincsshake192ssimple_srv.csr -out sphincsshake192ssimple_srv.pem -CA sphincsshake192ssimple_ica.pem -CAkey sphincsshake192ssimple_ica_key.pem -CAcreateserial -days 365
+cat sphincsshake192ssimple_ica.pem sphincsshake192ssimple_srv.pem > sphincsshake192ssimple_combined.pem
+
+apps/openssl x509 -pubkey -noout -in sphincsshake192ssimple_CA.pem  > sphincsshake192ssimple_CA_pubkey.pem
+apps/openssl x509 -pubkey -noout -in sphincsshake192ssimple_ica.pem  > sphincsshake192ssimple_ica_pubkey.pem
+apps/openssl x509 -pubkey -noout -in sphincsshake192ssimple_srv.pem  > sphincsshake192ssimple_srv_pubkey.pem
+
+
+bash new_sign.sh f0.zip f1.img.xz f2.zip sphincsshake192ssimple_CA_key.pem sphincsshake192ssimple_ica_key.pem sphincsshake192ssimple_srv_key.pem
+
+valgrind bash new_verify.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 sphincsshake192ssimple_CA_pubkey.pem sphincsshake192ssimple_ica_pubkey.pem sphincsshake192ssimple_srv_pubkey.pem sphincsshake192ssimple_CA.pem sphincsshake192ssimple_ica.pem sphincsshake192ssimple_combined.pem
+
+valgrind bash new_verify1.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 sphincsshake192ssimple_CA_pubkey.pem sphincsshake192ssimple_ica_pubkey.pem sphincsshake192ssimple_srv_pubkey.pem sphincsshake192ssimple_CA.pem sphincsshake192ssimple_ica.pem sphincsshake192ssimple_combined.pem
+
+-----------------------------------------------------
+
+-----------------------------------------------------
+
+SPHINCS+-SHAKE-128s-simple + dilithium3
+
+apps/openssl req -new -newkey dilithium3 -keyout dilithium3_ica_key.pem -out dilithium3_ica.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in dilithium3_ica.csr -out dilithium3_ica.pem -CA sphincsshake192ssimple_CA.pem -CAkey sphincsshake192ssimple_CA_key.pem -CAcreateserial -days 365
+apps/openssl req -new -newkey dilithium3 -keyout dilithium3_srv_key.pem -out dilithium3_srv.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in dilithium3_srv.csr -out dilithium3_srv.pem -CA dilithium3_ica.pem -CAkey dilithium3_ica_key.pem -CAcreateserial -days 365
+cat dilithium3_ica.pem dilithium3_srv.pem > dilithium3_combined.pem
+
+apps/openssl x509 -pubkey -noout -in dilithium3_ica.pem  > dilithium3_ica_pubkey.pem
+apps/openssl x509 -pubkey -noout -in dilithium3_srv.pem  > dilithium3_srv_pubkey.pem
+
+bash new_sign.sh f0.zip f1.img.xz f2.zip sphincsshake192ssimple_CA_key.pem dilithium3_ica_key.pem dilithium3_srv_key.pem
+
+valgrind bash new_verify.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 sphincsshake192ssimple_CA_pubkey.pem dilithium3_ica_pubkey.pem dilithium3_srv_pubkey.pem sphincsshake192ssimple_CA.pem dilithium3_ica.pem dilithium3_combined.pem
+
+valgrind bash new_verify1.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 sphincsshake192ssimple_CA_pubkey.pem dilithium3_ica_pubkey.pem dilithium3_srv_pubkey.pem sphincsshake192ssimple_CA.pem dilithium3_ica.pem dilithium3_combined.pem
+
+-------------------------------------------------------
+
+SPHINCS+-SHAKE-128s-simple + SPHINCS+-SHAKE-128f-simple
+
+apps/openssl req -new -newkey sphincsshake192fsimple -keyout sphincsshake192fsimple_ica_key.pem -out sphincsshake192fsimple_ica.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in sphincsshake192fsimple_ica.csr -out sphincsshake192fsimple_ica.pem -CA sphincsshake192ssimple_CA.pem -CAkey sphincsshake192ssimple_CA_key.pem -CAcreateserial -days 365
+apps/openssl req -new -newkey sphincsshake192fsimple -keyout sphincsshake192fsimple_srv_key.pem -out sphincsshake192fsimple_srv.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in sphincsshake192fsimple_srv.csr -out sphincsshake192fsimple_srv.pem -CA sphincsshake192fsimple_ica.pem -CAkey sphincsshake192fsimple_ica_key.pem -CAcreateserial -days 365
+cat sphincsshake192fsimple_ica.pem sphincsshake192fsimple_srv.pem > sphincsshake192fsimple_combined.pem
+
+apps/openssl x509 -pubkey -noout -in sphincsshake192ssimple_CA.pem  > sphincsshake192ssimple_CA_pubkey.pem
+apps/openssl x509 -pubkey -noout -in sphincsshake192fsimple_ica.pem  > sphincsshake192fsimple_ica_pubkey.pem
+apps/openssl x509 -pubkey -noout -in sphincsshake192fsimple_srv.pem  > sphincsshake192fsimple_srv_pubkey.pem
+
+bash new_sign.sh f0.zip f1.img.xz f2.zip sphincsshake192ssimple_CA_key.pem sphincsshake192fsimple_ica_key.pem sphincsshake192fsimple_srv_key.pem
+
+valgrind bash new_verify.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 sphincsshake192ssimple_CA_pubkey.pem sphincsshake192fsimple_ica_pubkey.pem sphincsshake192fsimple_srv_pubkey.pem sphincsshake192ssimple_CA.pem sphincsshake192fsimple_ica.pem sphincsshake192fsimple_combined.pem
+
+valgrind bash new_verify1.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 sphincsshake192ssimple_CA_pubkey.pem sphincsshake192fsimple_ica_pubkey.pem sphincsshake192fsimple_srv_pubkey.pem sphincsshake192ssimple_CA.pem sphincsshake192fsimple_ica.pem sphincsshake192fsimple_combined.pem
+

@@ -292,12 +292,46 @@ static const char *get_sigtype(int nid)
         return "SPHINCS+-SHA2-192f-simple";
     case NID_p384_sphincssha2192fsimple:
         return "ECDSA p384 - SPHINCS+-SHA2-192f-simple";
+    case NID_sphincssha2192ssimple:
+        return "SPHINCS+-SHA2-192s-simple";
+    case NID_p384_sphincssha2192ssimple:
+        return "ECDSA p384 - SPHINCS+-SHA2-192s-simple";
+    case NID_sphincssha2256fsimple:
+        return "SPHINCS+-SHA2-256f-simple";
+    case NID_p521_sphincssha2256fsimple:
+        return "ECDSA p521 - SPHINCS+-SHA2-256f-simple";
+    case NID_sphincssha2256ssimple:
+        return "SPHINCS+-SHA2-256s-simple";
+    case NID_p521_sphincssha2256ssimple:
+        return "ECDSA p521 - SPHINCS+-SHA2-256s-simple";
     case NID_sphincsshake128fsimple:
         return "SPHINCS+-SHAKE-128f-simple";
     case NID_p256_sphincsshake128fsimple:
         return "ECDSA p256 - SPHINCS+-SHAKE-128f-simple";
     case NID_rsa3072_sphincsshake128fsimple:
         return "RSA3072 - SPHINCS+-SHAKE-128f-simple";
+    case NID_sphincsshake128ssimple:
+        return "SPHINCS+-SHAKE-128s-simple";
+    case NID_p256_sphincsshake128ssimple:
+        return "ECDSA p256 - SPHINCS+-SHAKE-128s-simple";
+    case NID_rsa3072_sphincsshake128ssimple:
+        return "RSA3072 - SPHINCS+-SHAKE-128s-simple";
+    case NID_sphincsshake192fsimple:
+        return "SPHINCS+-SHAKE-192f-simple";
+    case NID_p384_sphincsshake192fsimple:
+        return "ECDSA p384 - SPHINCS+-SHAKE-192f-simple";
+    case NID_sphincsshake192ssimple:
+        return "SPHINCS+-SHAKE-192s-simple";
+    case NID_p384_sphincsshake192ssimple:
+        return "ECDSA p384 - SPHINCS+-SHAKE-192s-simple";
+    case NID_sphincsshake256fsimple:
+        return "SPHINCS+-SHAKE-256f-simple";
+    case NID_p521_sphincsshake256fsimple:
+        return "ECDSA p521 - SPHINCS+-SHAKE-256f-simple";
+    case NID_sphincsshake256ssimple:
+        return "SPHINCS+-SHAKE-256s-simple";
+    case NID_p521_sphincsshake256ssimple:
+        return "ECDSA p521 - SPHINCS+-SHAKE-256s-simple";
 ///// OQS_TEMPLATE_FRAGMENT_SIG_NAME_STR_END
     default:
         return NULL;

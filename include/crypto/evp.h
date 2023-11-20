@@ -133,9 +133,26 @@ extern const EVP_PKEY_METHOD p256_sphincssha2128ssimple_pkey_meth;
 extern const EVP_PKEY_METHOD rsa3072_sphincssha2128ssimple_pkey_meth;
 extern const EVP_PKEY_METHOD sphincssha2192fsimple_pkey_meth;
 extern const EVP_PKEY_METHOD p384_sphincssha2192fsimple_pkey_meth;
+extern const EVP_PKEY_METHOD sphincssha2192ssimple_pkey_meth;
+extern const EVP_PKEY_METHOD p384_sphincssha2192ssimple_pkey_meth;
+extern const EVP_PKEY_METHOD sphincssha2256fsimple_pkey_meth;
+extern const EVP_PKEY_METHOD p521_sphincssha2256fsimple_pkey_meth;
+extern const EVP_PKEY_METHOD sphincssha2256ssimple_pkey_meth;
+extern const EVP_PKEY_METHOD p521_sphincssha2256ssimple_pkey_meth;
 extern const EVP_PKEY_METHOD sphincsshake128fsimple_pkey_meth;
 extern const EVP_PKEY_METHOD p256_sphincsshake128fsimple_pkey_meth;
-extern const EVP_PKEY_METHOD rsa3072_sphincsshake128fsimple_pkey_meth;///// OQS_TEMPLATE_FRAGMENT_DEFINE_EVP_METHS_END
+extern const EVP_PKEY_METHOD rsa3072_sphincsshake128fsimple_pkey_meth;
+extern const EVP_PKEY_METHOD sphincsshake128ssimple_pkey_meth;
+extern const EVP_PKEY_METHOD p256_sphincsshake128ssimple_pkey_meth;
+extern const EVP_PKEY_METHOD rsa3072_sphincsshake128ssimple_pkey_meth;
+extern const EVP_PKEY_METHOD sphincsshake192fsimple_pkey_meth;
+extern const EVP_PKEY_METHOD p384_sphincsshake192fsimple_pkey_meth;
+extern const EVP_PKEY_METHOD sphincsshake192ssimple_pkey_meth;
+extern const EVP_PKEY_METHOD p384_sphincsshake192ssimple_pkey_meth;
+extern const EVP_PKEY_METHOD sphincsshake256fsimple_pkey_meth;
+extern const EVP_PKEY_METHOD p521_sphincsshake256fsimple_pkey_meth;
+extern const EVP_PKEY_METHOD sphincsshake256ssimple_pkey_meth;
+extern const EVP_PKEY_METHOD p521_sphincsshake256ssimple_pkey_meth;///// OQS_TEMPLATE_FRAGMENT_DEFINE_EVP_METHS_END
 
 struct evp_md_st {
     int type;

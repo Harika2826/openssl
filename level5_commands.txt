@@ -1,0 +1,348 @@
+
+level 5
+
+dilithium5
+
+apps/openssl req -x509 -new -newkey dilithium5 -keyout dilithium5_CA_key.pem -out dilithium5_CA.pem -days 365 -config apps/openssl.cnf
+
+apps/openssl req -new -newkey dilithium5 -keyout dilithium5_ica_key.pem -out dilithium5_ica.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in dilithium5_ica.csr -out dilithium5_ica.pem -CA dilithium5_CA.pem -CAkey dilithium5_CA_key.pem -CAcreateserial -days 365
+
+apps/openssl req -new -newkey dilithium5 -keyout dilithium5_srv_key.pem -out dilithium5_srv.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in dilithium5_srv.csr -out dilithium5_srv.pem -CA dilithium5_ica.pem -CAkey dilithium5_ica_key.pem -CAcreateserial -days 365
+
+cat dilithium5_ica.pem dilithium5_srv.pem > dilithium5_combined.pem
+
+apps/openssl x509 -pubkey -noout -in dilithium5_CA.pem  > dilithium5_CA_pubkey.pem
+apps/openssl x509 -pubkey -noout -in dilithium5_ica.pem  > dilithium5_ica_pubkey.pem
+apps/openssl x509 -pubkey -noout -in dilithium5_srv.pem  > dilithium5_srv_pubkey.pem
+
+
+bash new_sign.sh f0.zip f1.img.xz f2.zip dilithium5_CA_key.pem dilithium5_ica_key.pem dilithium5_srv_key.pem
+
+valgrind bash new_verify.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 dilithium5_CA_pubkey.pem dilithium5_ica_pubkey.pem dilithium5_srv_pubkey.pem dilithium5_CA.pem dilithium5_ica.pem dilithium5_combined.pem
+
+valgrind bash new_verify1.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 dilithium5_CA_pubkey.pem dilithium5_ica_pubkey.pem dilithium5_srv_pubkey.pem dilithium5_CA.pem dilithium5_ica.pem dilithium5_combined.pem
+
+---------------------------
+
+
+
+dilithium5+ SPHINCS+-SHAKE-256f-simple
+
+apps/openssl req -new -newkey sphincsshake256fsimple -keyout sphincsshake256fsimple_ica_key.pem -out sphincsshake256fsimple_ica.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in sphincsshake256fsimple_ica.csr -out sphincsshake256fsimple_ica.pem -CA dilithium5_CA.pem -CAkey dilithium5_CA_key.pem -CAcreateserial -days 365
+
+apps/openssl req -new -newkey sphincsshake256fsimple -keyout sphincsshake256fsimple_srv_key.pem -out sphincsshake256fsimple_srv.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in sphincsshake256fsimple_srv.csr -out sphincsshake256fsimple_srv.pem -CA sphincsshake256fsimple_ica.pem -CAkey sphincsshake256fsimple_ica_key.pem -CAcreateserial -days 365
+cat sphincsshake256fsimple_ica.pem sphincsshake256fsimple_srv.pem > sphincsshake256fsimple_combined.pem
+
+apps/openssl x509 -pubkey -noout -in sphincsshake256fsimple_ica.pem  > sphincsshake256fsimple_ica_pubkey.pem
+apps/openssl x509 -pubkey -noout -in sphincsshake256fsimple_srv.pem  > sphincsshake256fsimple_srv_pubkey.pem
+
+bash new_sign.sh f0.zip f1.img.xz f2.zip dilithium5_CA_key.pem sphincsshake256fsimple_ica_key.pem sphincsshake256fsimple_srv_key.pem
+
+valgrind bash new_verify.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 dilithium5_CA_pubkey.pem sphincsshake256fsimple_ica_pubkey.pem sphincsshake256fsimple_srv_pubkey.pem dilithium5_CA.pem sphincsshake256fsimple_ica.pem sphincsshake256fsimple_combined.pem
+
+valgrind bash new_verify1.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 dilithium5_CA_pubkey.pem sphincsshake256fsimple_ica_pubkey.pem sphincsshake256fsimple_srv_pubkey.pem dilithium5_CA.pem sphincsshake256fsimple_ica.pem sphincsshake256fsimple_combined.pem
+
+
+------------------------------
+
+dilithium5+ SPHINCS+-SHAKE-256s-simple
+
+apps/openssl req -new -newkey sphincsshake256ssimple -keyout sphincsshake256ssimple_ica_key.pem -out sphincsshake256ssimple_ica.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in sphincsshake256ssimple_ica.csr -out sphincsshake256ssimple_ica.pem -CA dilithium5_CA.pem -CAkey dilithium5_CA_key.pem -CAcreateserial -days 365
+
+apps/openssl req -new -newkey sphincsshake256ssimple -keyout sphincsshake256ssimple_srv_key.pem -out sphincsshake256ssimple_srv.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in sphincsshake256ssimple_srv.csr -out sphincsshake256ssimple_srv.pem -CA sphincsshake256ssimple_ica.pem -CAkey sphincsshake256ssimple_ica_key.pem -CAcreateserial -days 365
+cat sphincsshake256ssimple_ica.pem sphincsshake256ssimple_srv.pem > sphincsshake256ssimple_combined.pem
+
+apps/openssl x509 -pubkey -noout -in sphincsshake256ssimple_ica.pem  > sphincsshake256ssimple_ica_pubkey.pem
+apps/openssl x509 -pubkey -noout -in sphincsshake256ssimple_srv.pem  > sphincsshake256ssimple_srv_pubkey.pem
+
+bash new_sign.sh f0.zip f1.img.xz f2.zip dilithium5_CA_key.pem sphincsshake256ssimple_ica_key.pem sphincsshake256ssimple_srv_key.pem
+
+valgrind bash new_verify.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 dilithium5_CA_pubkey.pem sphincsshake256ssimple_ica_pubkey.pem sphincsshake256ssimple_srv_pubkey.pem dilithium5_CA.pem sphincsshake256ssimple_ica.pem sphincsshake256ssimple_combined.pem
+
+valgrind bash new_verify1.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 dilithium5_CA_pubkey.pem sphincsshake256ssimple_ica_pubkey.pem sphincsshake256ssimple_srv_pubkey.pem dilithium5_CA.pem sphincsshake256ssimple_ica.pem sphincsshake256ssimple_combined.pem
+
+--------------------------------------
+
+dilithium5+ fal1024
+
+apps/openssl req -new -newkey falcon1024 -keyout falcon1024_ica_key.pem -out falcon1024_ica.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in falcon1024_ica.csr -out falcon1024_ica.pem -CA dilithium5_CA.pem -CAkey dilithium5_CA_key.pem -CAcreateserial -days 365
+
+apps/openssl req -new -newkey falcon1024 -keyout falcon1024_srv_key.pem -out falcon1024_srv.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in falcon1024_srv.csr -out falcon1024_srv.pem -CA falcon1024_ica.pem -CAkey falcon1024_ica_key.pem -CAcreateserial -days 365
+cat falcon1024_ica.pem falcon1024_srv.pem > falcon1024_combined.pem
+
+apps/openssl x509 -pubkey -noout -in falcon1024_ica.pem  > falcon1024_ica_pubkey.pem
+apps/openssl x509 -pubkey -noout -in falcon1024_srv.pem  > falcon1024_srv_pubkey.pem
+
+bash new_sign.sh f0.zip f1.img.xz f2.zip dilithium5_CA_key.pem falcon1024_ica_key.pem falcon1024_srv_key.pem
+
+valgrind bash new_verify.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 dilithium5_CA_pubkey.pem falcon1024_ica_pubkey.pem falcon1024_srv_pubkey.pem dilithium5_CA.pem falcon1024_ica.pem falcon1024_combined.pem
+
+valgrind bash new_verify1.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 dilithium5_CA_pubkey.pem falcon1024_ica_pubkey.pem falcon1024_srv_pubkey.pem dilithium5_CA.pem falcon1024_ica.pem falcon1024_combined.pem
+
+====================================+++++++++++++++++++++++++++=============================================================
+
+
+Falcon 1024
+
+apps/openssl req -x509 -new -newkey falcon1024 -keyout falcon1024_CA_key.pem -out falcon1024_CA.pem -days 365 -config apps/openssl.cnf
+
+apps/openssl req -new -newkey falcon1024 -keyout falcon1024_ica_key.pem -out falcon1024_ica.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in falcon1024_ica.csr -out falcon1024_ica.pem -CA falcon1024_CA.pem -CAkey falcon1024_CA_key.pem -CAcreateserial -days 365
+
+apps/openssl req -new -newkey falcon1024 -keyout falcon1024_srv_key.pem -out falcon1024_srv.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in falcon1024_srv.csr -out falcon1024_srv.pem -CA falcon1024_ica.pem -CAkey falcon1024_ica_key.pem -CAcreateserial -days 365
+cat falcon1024_ica.pem falcon1024_srv.pem > falcon1024_combined.pem
+
+apps/openssl x509 -pubkey -noout -in falcon1024_CA.pem  > falcon1024_CA_pubkey.pem
+apps/openssl x509 -pubkey -noout -in falcon1024_ica.pem  > falcon1024_ica_pubkey.pem
+apps/openssl x509 -pubkey -noout -in falcon1024_srv.pem  > falcon1024_srv_pubkey.pem
+
+
+bash new_sign.sh f0.zip f1.img.xz f2.zip falcon1024_CA_key.pem falcon1024_ica_key.pem falcon1024_srv_key.pem
+
+valgrind bash new_verify.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 falcon1024_CA_pubkey.pem falcon1024_ica_pubkey.pem falcon1024_srv_pubkey.pem falcon1024_CA.pem falcon1024_ica.pem falcon1024_combined.pem
+
+valgrind bash new_verify1.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 falcon1024_CA_pubkey.pem falcon1024_ica_pubkey.pem falcon1024_srv_pubkey.pem falcon1024_CA.pem falcon1024_ica.pem falcon1024_combined.pem
+
+-----------------
+
+falcon 1024 + SPHINCS+-SHAKE-256f-simple
+
+apps/openssl req -new -newkey sphincsshake256fsimple -keyout fsphincsshake256fsimple_ica_key.pem -out fsphincsshake256fsimple_ica.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in fsphincsshake256fsimple_ica.csr -out fsphincsshake256fsimple_ica.pem -CA falcon1024_CA.pem -CAkey falcon1024_CA_key.pem -CAcreateserial -days 365
+
+apps/openssl req -new -newkey sphincsshake256fsimple -keyout fsphincsshake256fsimple_srv_key.pem -out fsphincsshake256fsimple_srv.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in fsphincsshake256fsimple_srv.csr -out fsphincsshake256fsimple_srv.pem -CA fsphincsshake256fsimple_ica.pem -CAkey fsphincsshake256fsimple_ica_key.pem -CAcreateserial -days 365
+cat fsphincsshake256fsimple_ica.pem fsphincsshake256fsimple_srv.pem > fsphincsshake256fsimple_combined.pem
+
+apps/openssl x509 -pubkey -noout -in fsphincsshake256fsimple_ica.pem  > fsphincsshake256fsimple_ica_pubkey.pem
+apps/openssl x509 -pubkey -noout -in fsphincsshake256fsimple_srv.pem  > fsphincsshake256fsimple_srv_pubkey.pem
+
+bash new_sign.sh f0.zip f1.img.xz f2.zip falcon1024_CA_key.pem fsphincsshake256fsimple_ica_key.pem fsphincsshake256fsimple_srv_key.pem
+
+valgrind bash new_verify.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 falcon1024_CA_pubkey.pem fsphincsshake256fsimple_ica_pubkey.pem fsphincsshake256fsimple_srv_pubkey.pem falcon1024_CA.pem fsphincsshake256fsimple_ica.pem fsphincsshake256fsimple_combined.pem
+
+valgrind bash new_verify1.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 falcon1024_CA_pubkey.pem fsphincsshake256fsimple_ica_pubkey.pem fsphincsshake256fsimple_srv_pubkey.pem falcon1024_CA.pem fsphincsshake256fsimple_ica.pem fsphincsshake256fsimple_combined.pem
+
+
+--------------------
+
+falcon 1024 + SPHINCS+-SHAKE-256s-simple
+
+apps/openssl req -new -newkey sphincsshake256ssimple -keyout fsphincsshake256ssimple_ica_key.pem -out fsphincsshake256ssimple_ica.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in fsphincsshake256ssimple_ica.csr -out fsphincsshake256ssimple_ica.pem -CA falcon1024_CA.pem -CAkey falcon1024_CA_key.pem -CAcreateserial -days 365
+
+apps/openssl req -new -newkey sphincsshake256ssimple -keyout fsphincsshake256ssimple_srv_key.pem -out fsphincsshake256ssimple_srv.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in fsphincsshake256ssimple_srv.csr -out fsphincsshake256ssimple_srv.pem -CA fsphincsshake256ssimple_ica.pem -CAkey fsphincsshake256ssimple_ica_key.pem -CAcreateserial -days 365
+cat fsphincsshake256ssimple_ica.pem fsphincsshake256ssimple_srv.pem > fsphincsshake256ssimple_combined.pem
+
+apps/openssl x509 -pubkey -noout -in fsphincsshake256ssimple_ica.pem  > fsphincsshake256ssimple_ica_pubkey.pem
+apps/openssl x509 -pubkey -noout -in fsphincsshake256ssimple_srv.pem  > fsphincsshake256ssimple_srv_pubkey.pem
+
+
+bash new_sign.sh f0.zip f1.img.xz f2.zip falcon1024_CA_key.pem fsphincsshake256ssimple_ica_key.pem fsphincsshake256ssimple_srv_key.pem
+
+valgrind bash new_verify.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 falcon1024_CA_pubkey.pem fsphincsshake256ssimple_ica_pubkey.pem fsphincsshake256ssimple_srv_pubkey.pem falcon1024_CA.pem fsphincsshake256ssimple_ica.pem fsphincsshake256ssimple_combined.pem
+
+valgrind bash new_verify1.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 falcon1024_CA_pubkey.pem fsphincsshake256ssimple_ica_pubkey.pem fsphincsshake256ssimple_srv_pubkey.pem falcon1024_CA.pem fsphincsshake256ssimple_ica.pem fsphincsshake256ssimple_combined.pem
+
+-------------------------
+
+Fal1024+dil5
+
+apps/openssl req -new -newkey dilithium5 -keyout dilithium5_ica_key.pem -out dilithium5_ica.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in dilithium5_ica.csr -out dilithium5_ica.pem -CA falcon1024_CA.pem -CAkey falcon1024_CA_key.pem -CAcreateserial -days 365
+
+apps/openssl req -new -newkey dilithium5 -keyout dilithium5_srv_key.pem -out dilithium5_srv.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in dilithium5_srv.csr -out dilithium5_srv.pem -CA dilithium5_ica.pem -CAkey dilithium5_ica_key.pem -CAcreateserial -days 365
+cat dilithium5_ica.pem dilithium5_srv.pem > dilithium5_combined.pem
+
+apps/openssl x509 -pubkey -noout -in dilithium5_ica.pem  > dilithium5_ica_pubkey.pem
+apps/openssl x509 -pubkey -noout -in dilithium5_srv.pem  > dilithium5_srv_pubkey.pem
+
+bash new_sign.sh f0.zip f1.img.xz f2.zip falcon1024_CA_key.pem dilithium5_ica_key.pem dilithium5_srv_key.pem
+
+valgrind bash new_verify.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 falcon1024_CA_pubkey.pem dilithium5_ica_pubkey.pem dilithium5_srv_pubkey.pem falcon1024_CA.pem dilithium5_ica.pem dilithium5_combined.pem
+
+valgrind bash new_verify1.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 falcon1024_CA_pubkey.pem dilithium5_ica_pubkey.pem dilithium5_srv_pubkey.pem falcon1024_CA.pem dilithium5_ica.pem dilithium5_combined.pem
+
+
+==================================================+++++++++++++++++++++++++++++++====================================================================
+
+sphincsshake256fsimple
+
+apps/openssl req -x509 -new -newkey sphincsshake256fsimple -keyout sphincsshake256fsimple_CA_key.pem -out sphincsshake256fsimple_CA.pem -days 365 -config apps/openssl.cnf
+
+apps/openssl req -new -newkey sphincsshake256fsimple -keyout sphincsshake256fsimple_ica_key.pem -out sphincsshake256fsimple_ica.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in sphincsshake256fsimple_ica.csr -out sphincsshake256fsimple_ica.pem -CA sphincsshake256fsimple_CA.pem -CAkey sphincsshake256fsimple_CA_key.pem -CAcreateserial -days 365
+
+apps/openssl req -new -newkey sphincsshake256fsimple -keyout sphincsshake256fsimple_srv_key.pem -out sphincsshake256fsimple_srv.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in sphincsshake256fsimple_srv.csr -out sphincsshake256fsimple_srv.pem -CA sphincsshake256fsimple_ica.pem -CAkey sphincsshake256fsimple_ica_key.pem -CAcreateserial -days 365
+
+cat sphincsshake256fsimple_ica.pem sphincsshake256fsimple_srv.pem > sphincsshake256fsimple_combined.pem
+
+apps/openssl x509 -pubkey -noout -in sphincsshake256fsimple_CA.pem  > sphincsshake256fsimple_CA_pubkey.pem
+apps/openssl x509 -pubkey -noout -in sphincsshake256fsimple_ica.pem  > sphincsshake256fsimple_ica_pubkey.pem
+apps/openssl x509 -pubkey -noout -in sphincsshake256fsimple_srv.pem  > sphincsshake256fsimple_srv_pubkey.pem
+
+
+bash new_sign.sh f0.zip f1.img.xz f2.zip sphincsshake256fsimple_CA_key.pem sphincsshake256fsimple_ica_key.pem sphincsshake256fsimple_srv_key.pem
+
+valgrind bash new_verify.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 sphincsshake256fsimple_CA_pubkey.pem sphincsshake256fsimple_ica_pubkey.pem sphincsshake256fsimple_srv_pubkey.pem sphincsshake256fsimple_CA.pem sphincsshake256fsimple_ica.pem sphincsshake256fsimple_combined.pem
+
+valgrind bash new_verify1.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 sphincsshake256fsimple_CA_pubkey.pem sphincsshake256fsimple_ica_pubkey.pem sphincsshake256fsimple_srv_pubkey.pem sphincsshake256fsimple_CA.pem sphincsshake256fsimple_ica.pem sphincsshake256fsimple_combined.pem
+
+----------------------------
+
+sphincsshake256fsimple+dil5
+
+apps/openssl req -new -newkey dilithium5 -keyout dilithium5_ica_key.pem -out dilithium5_ica.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in dilithium5_ica.csr -out dilithium5_ica.pem -CA sphincsshake256fsimple_CA.pem -CAkey sphincsshake256fsimple_CA_key.pem -CAcreateserial -days 365
+
+apps/openssl req -new -newkey dilithium5 -keyout dilithium5_srv_key.pem -out dilithium5_srv.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in dilithium5_srv.csr -out dilithium5_srv.pem -CA dilithium5_ica.pem -CAkey dilithium5_ica_key.pem -CAcreateserial -days 365
+cat dilithium5_ica.pem dilithium5_srv.pem > dilithium5_combined.pem
+
+apps/openssl x509 -pubkey -noout -in dilithium5_ica.pem  > dilithium5_ica_pubkey.pem
+apps/openssl x509 -pubkey -noout -in dilithium5_srv.pem  > dilithium5_srv_pubkey.pem
+
+bash new_sign.sh f0.zip f1.img.xz f2.zip sphincsshake256fsimple_CA_key.pem dilithium5_ica_key.pem dilithium5_srv_key.pem
+
+valgrind bash new_verify.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 sphincsshake256fsimple_CA_pubkey.pem dilithium5_ica_pubkey.pem dilithium5_srv_pubkey.pem sphincsshake256fsimple_CA.pem dilithium5_ica.pem dilithium5_combined.pem
+
+valgrind bash new_verify1.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 sphincsshake256fsimple_CA_pubkey.pem dilithium5_ica_pubkey.pem dilithium5_srv_pubkey.pem sphincsshake256fsimple_CA.pem dilithium5_ica.pem dilithium5_combined.pem
+
+-------------------------------
+
+sphincsshake256fsimple+fal1024
+
+apps/openssl req -new -newkey falcon1024 -keyout falcon1024_ica_key.pem -out falcon1024_ica.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in falcon1024_ica.csr -out falcon1024_ica.pem -CA sphincsshake256fsimple_CA.pem -CAkey sphincsshake256fsimple_CA_key.pem -CAcreateserial -days 365
+
+apps/openssl req -new -newkey falcon1024 -keyout falcon1024_srv_key.pem -out falcon1024_srv.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in falcon1024_srv.csr -out falcon1024_srv.pem -CA falcon1024_ica.pem -CAkey falcon1024_ica_key.pem -CAcreateserial -days 365
+cat falcon1024_ica.pem falcon1024_srv.pem > falcon1024_combined.pem
+
+apps/openssl x509 -pubkey -noout -in falcon1024_ica.pem  > falcon1024_ica_pubkey.pem
+apps/openssl x509 -pubkey -noout -in falcon1024_srv.pem  > falcon1024_srv_pubkey.pem
+
+bash new_sign.sh f0.zip f1.img.xz f2.zip sphincsshake256fsimple_CA_key.pem falcon1024_ica_key.pem falcon1024_srv_key.pem
+
+valgrind bash new_verify.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 sphincsshake256fsimple_CA_pubkey.pem falcon1024_ica_pubkey.pem falcon1024_srv_pubkey.pem sphincsshake256fsimple_CA.pem falcon1024_ica.pem falcon1024_combined.pem
+
+valgrind bash new_verify1.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 sphincsshake256fsimple_CA_pubkey.pem falcon1024_ica_pubkey.pem falcon1024_srv_pubkey.pem sphincsshake256fsimple_CA.pem falcon1024_ica.pem falcon1024_combined.pem
+
+
+-------------------------------
+
+sphincsshake256fsimple+sphincsshake256ssimple
+
+apps/openssl req -new -newkey sphincsshake256ssimple -keyout sphincsshake256ssimple_ica_key.pem -out sphincsshake256ssimple_ica.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in sphincsshake256ssimple_ica.csr -out sphincsshake256ssimple_ica.pem -CA sphincsshake256fsimple_CA.pem -CAkey sphincsshake256fsimple_CA_key.pem -CAcreateserial -days 365
+
+apps/openssl req -new -newkey sphincsshake256ssimple -keyout sphincsshake256ssimple_srv_key.pem -out sphincsshake256ssimple_srv.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in sphincsshake256ssimple_srv.csr -out sphincsshake256ssimple_srv.pem -CA sphincsshake256ssimple_ica.pem -CAkey sphincsshake256ssimple_ica_key.pem -CAcreateserial -days 365
+cat sphincsshake256ssimple_ica.pem sphincsshake256ssimple_srv.pem > sphincsshake256ssimple_combined.pem
+
+apps/openssl x509 -pubkey -noout -in sphincsshake256ssimple_ica.pem  > sphincsshake256ssimple_ica_pubkey.pem
+apps/openssl x509 -pubkey -noout -in sphincsshake256ssimple_srv.pem  > sphincsshake256ssimple_srv_pubkey.pem
+
+bash new_sign.sh f0.zip f1.img.xz f2.zip sphincsshake256fsimple_CA_key.pem sphincsshake256ssimple_ica_key.pem sphincsshake256ssimple_srv_key.pem
+
+valgrind bash new_verify.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 sphincsshake256fsimple_CA_pubkey.pem sphincsshake256ssimple_ica_pubkey.pem sphincsshake256ssimple_srv_pubkey.pem sphincsshake256fsimple_CA.pem sphincsshake256ssimple_ica.pem sphincsshake256ssimple_combined.pem
+
+valgrind bash new_verify1.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 sphincsshake256fsimple_CA_pubkey.pem sphincsshake256ssimple_ica_pubkey.pem sphincsshake256ssimple_srv_pubkey.pem sphincsshake256fsimple_CA.pem sphincsshake256ssimple_ica.pem sphincsshake256ssimple_combined.pem
+
+=================================================================================================================================================================
+
+sphincsshake256ssimple
+
+apps/openssl req -x509 -new -newkey sphincsshake256ssimple -keyout sphincsshake256ssimple_CA_key.pem -out sphincsshake256ssimple_CA.pem -days 365 -config apps/openssl.cnf
+
+apps/openssl req -new -newkey sphincsshake256ssimple -keyout sphincsshake256ssimple_ica_key.pem -out sphincsshake256ssimple_ica.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in sphincsshake256ssimple_ica.csr -out sphincsshake256ssimple_ica.pem -CA sphincsshake256ssimple_CA.pem -CAkey sphincsshake256ssimple_CA_key.pem -CAcreateserial -days 365
+
+apps/openssl req -new -newkey sphincsshake256ssimple -keyout sphincsshake256ssimple_srv_key.pem -out sphincsshake256ssimple_srv.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in sphincsshake256ssimple_srv.csr -out sphincsshake256ssimple_srv.pem -CA sphincsshake256ssimple_ica.pem -CAkey sphincsshake256ssimple_ica_key.pem -CAcreateserial -days 365
+
+cat sphincsshake256ssimple_ica.pem sphincsshake256ssimple_srv.pem > sphincsshake256ssimple_combined.pem
+
+apps/openssl x509 -pubkey -noout -in sphincsshake256ssimple_CA.pem  > sphincsshake256ssimple_CA_pubkey.pem
+apps/openssl x509 -pubkey -noout -in sphincsshake256ssimple_ica.pem  > sphincsshake256ssimple_ica_pubkey.pem
+apps/openssl x509 -pubkey -noout -in sphincsshake256ssimple_srv.pem  > sphincsshake256ssimple_srv_pubkey.pem
+
+
+bash new_sign.sh f0.zip f1.img.xz f2.zip sphincsshake256ssimple_CA_key.pem sphincsshake256ssimple_ica_key.pem sphincsshake256ssimple_srv_key.pem
+
+valgrind bash new_verify.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 sphincsshake256ssimple_CA_pubkey.pem sphincsshake256ssimple_ica_pubkey.pem sphincsshake256ssimple_srv_pubkey.pem sphincsshake256ssimple_CA.pem sphincsshake256ssimple_ica.pem sphincsshake256ssimple_combined.pem
+
+valgrind bash new_verify1.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 sphincsshake256ssimple_CA_pubkey.pem sphincsshake256ssimple_ica_pubkey.pem sphincsshake256ssimple_srv_pubkey.pem sphincsshake256ssimple_CA.pem sphincsshake256ssimple_ica.pem sphincsshake256ssimple_combined.pem
+
+-----------------------------------
+
+sphincsshake256ssimple+dil5
+
+apps/openssl req -new -newkey dilithium5 -keyout dilithium5_ica_key.pem -out dilithium5_ica.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in dilithium5_ica.csr -out dilithium5_ica.pem -CA sphincsshake256ssimple_CA.pem -CAkey sphincsshake256ssimple_CA_key.pem -CAcreateserial -days 365
+
+apps/openssl req -new -newkey dilithium5 -keyout dilithium5_srv_key.pem -out dilithium5_srv.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in dilithium5_srv.csr -out dilithium5_srv.pem -CA dilithium5_ica.pem -CAkey dilithium5_ica_key.pem -CAcreateserial -days 365
+cat dilithium5_ica.pem dilithium5_srv.pem > dilithium5_combined.pem
+
+apps/openssl x509 -pubkey -noout -in dilithium5_ica.pem  > dilithium5_ica_pubkey.pem
+apps/openssl x509 -pubkey -noout -in dilithium5_srv.pem  > dilithium5_srv_pubkey.pem
+
+bash new_sign.sh f0.zip f1.img.xz f2.zip sphincsshake256ssimple_CA_key.pem dilithium5_ica_key.pem dilithium5_srv_key.pem
+
+valgrind bash new_verify.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 sphincsshake256ssimple_CA_pubkey.pem dilithium5_ica_pubkey.pem dilithium5_srv_pubkey.pem sphincsshake256ssimple_CA.pem dilithium5_ica.pem dilithium5_combined.pem
+
+valgrind bash new_verify1.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 sphincsshake256ssimple_CA_pubkey.pem dilithium5_ica_pubkey.pem dilithium5_srv_pubkey.pem sphincsshake256ssimple_CA.pem dilithium5_ica.pem dilithium5_combined.pem
+
+--------------------------------
+
+sphincsshake256ssimple+fal1024
+
+apps/openssl req -new -newkey falcon1024 -keyout falcon1024_ica_key.pem -out falcon1024_ica.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in falcon1024_ica.csr -out falcon1024_ica.pem -CA sphincsshake256ssimple_CA.pem -CAkey sphincsshake256ssimple_CA_key.pem -CAcreateserial -days 365
+
+apps/openssl req -new -newkey falcon1024 -keyout falcon1024_srv_key.pem -out falcon1024_srv.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in falcon1024_srv.csr -out falcon1024_srv.pem -CA falcon1024_ica.pem -CAkey falcon1024_ica_key.pem -CAcreateserial -days 365
+cat falcon1024_ica.pem falcon1024_srv.pem > falcon1024_combined.pem
+
+apps/openssl x509 -pubkey -noout -in falcon1024_ica.pem  > falcon1024_ica_pubkey.pem
+apps/openssl x509 -pubkey -noout -in falcon1024_srv.pem  > falcon1024_srv_pubkey.pem
+
+bash new_sign.sh f0.zip f1.img.xz f2.zip sphincsshake256ssimple_CA_key.pem falcon1024_ica_key.pem falcon1024_srv_key.pem
+
+valgrind bash new_verify.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 sphincsshake256ssimple_CA_pubkey.pem falcon1024_ica_pubkey.pem falcon1024_srv_pubkey.pem falcon1024_CA.pem falcon1024_ica.pem falcon1024_combined.pem
+
+valgrind bash new_verify1.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 sphincsshake256ssimple_CA_pubkey.pem falcon1024_ica_pubkey.pem falcon1024_srv_pubkey.pem falcon1024_CA.pem falcon1024_ica.pem falcon1024_combined.pem
+
+-------------------------------------
+
+sphincsshake256ssimple+sphincsshake256fsimple
+
+apps/openssl req -new -newkey sphincsshake256fsimple -keyout sphincsshake256fsimple_ica_key.pem -out sphincsshake256fsimple_ica.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in sphincsshake256fsimple_ica.csr -out sphincsshake256fsimple_ica.pem -CA sphincsshake256ssimple_CA.pem -CAkey sphincsshake256ssimple_CA_key.pem -CAcreateserial -days 365
+
+apps/openssl req -new -newkey sphincsshake256fsimple -keyout sphincsshake256fsimple_srv_key.pem -out sphincsshake256fsimple_srv.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in sphincsshake256fsimple_srv.csr -out sphincsshake256fsimple_srv.pem -CA sphincsshake256fsimple_ica.pem -CAkey sphincsshake256fsimple_ica_key.pem -CAcreateserial -days 365
+cat sphincsshake256fsimple_ica.pem sphincsshake256fsimple_srv.pem > sphincsshake256fsimple_combined.pem
+
+apps/openssl x509 -pubkey -noout -in sphincsshake256fsimple_ica.pem  > sphincsshake256fsimple_ica_pubkey.pem
+apps/openssl x509 -pubkey -noout -in sphincsshake256fsimple_srv.pem  > sphincsshake256fsimple_srv_pubkey.pem
+
+bash new_sign.sh f0.zip f1.img.xz f2.zip sphincsshake256ssimple_CA_key.pem sphincsshake256fsimple_ica_key.pem sphincsshake256fsimple_srv_key.pem
+
+valgrind bash new_verify.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 sphincsshake256ssimple_CA_pubkey.pem sphincsshake256fsimple_ica_pubkey.pem sphincsshake256fsimple_srv_pubkey.pem sphincsshake256ssimple_CA.pem sphincsshake256fsimple_ica.pem sphincsshake256fsimple_combined.pem
+
+valgrind bash new_verify1.sh f0.zip f1.img.xz f2.zip signature.shake128 signaturea.shake128 signatureb.shake128 sphincsshake256ssimple_CA_pubkey.pem sphincsshake256fsimple_ica_pubkey.pem sphincsshake256fsimple_srv_pubkey.pem sphincsshake256ssimple_CA.pem sphincsshake256fsimple_ica.pem sphincsshake256fsimple_combined.pem
+

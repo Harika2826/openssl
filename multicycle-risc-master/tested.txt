@@ -1,0 +1,185 @@
+IITB-RISC-2022
+
+All Instructions Tested Working using Assembler, Bootloader : Confirmed on 11/12/22
+
+ADD:
+    add r2, r0, r1
+    Debug:
+    r0 = 0x0002
+    r1 = 0x0010
+    Result: r2 = 0x0012
+
+
+ADC(Carry Set):
+    add r2, r0, r1
+    adc r2, r2, r0, r2
+    Debug:
+    r0 = 0x8002
+    r1 = 0x8010
+    Result: r2 = 0x8014
+
+ADC(Carry Not Set):
+    add r2, r0, r1
+    adc r2, r2, r0, r2
+    Debug:
+    r0 = 0x8002
+    r1 = 0x0010
+    Result: r2 = 0x8012
+
+ADZ(Zero Set):
+    add r3, r0, r1
+    adz r2, r0, r0, r2
+    Debug:
+    r0 = 0x0000
+    r1 = 0x0000
+    r2 = 0x0001
+    Result: r1 = 0x0001, r2 = 0x0001
+
+ADZ(Zero Not Set):
+    add r3, r0, r1
+    adz r2, r0, r0, r2
+    Debug:
+    r0 = 0x0000
+    r1 = 0x0001
+    r2 = 0x0001
+    Result: r1 = 0x0001, r2 = 0x0001
+
+ADL:
+    adi r1,r0,7
+    adi r2,r0,6
+    adl r3,r1,r2 
+    jri r0,3
+    Result: r3 = 0x0013
+
+ADI:
+    adi r1, r0, 7
+    Result: r1 = 0x0007
+
+
+NDU(Nand):
+    adi r0,r6,32
+    adi r1,r6,27
+    ndu r2,r0,r1
+    jri r0,1
+    Result: r2 = 0xFFFF
+
+NDU and ADC and ADZ work => NDC, NDZ work
+
+LHI:
+    lhi r0,12 ;0b000001100
+    jri r1,1
+    Debug:
+    r0 = 0x0600 (0b0000011000000000)
+    Result: r0 = 0x0600
+
+LW:
+    lw r0,r1,61 
+    jri r1,1
+    Debug:
+    Mem(0d61) = 0x0004 (bootloader)
+    Result:
+    R0 = 0x0004
+
+SW:
+    adi r0,r6,63
+    adi r1,r6,17
+    sw r1,r0,0
+    jri r1,1
+    Result:
+    	Mem(0d63) = 0x0011
+
+
+LM:
+    adi r0,r6,61
+    lm r0,7 ;0b0000111
+    jri r5,2
+    Debug:
+    Mem(0d61) = 0x0004 (bootloader)
+    Mem(0d62) = 0x00F8
+    Mem(0d63) = 0xFFFF
+    Result:
+    R0 = 0x0004
+    R1 = 0x00F8
+    R3 = 0xFFFF
+
+SM:
+    SM r0, #00000011B
+    Debug:
+    r0 = 0x0005
+    r1 = 0x0001
+    Result:
+    	Mem(0x0005) = 0x0005
+    	Mem(0x0006) = 0x0001
+ 
+BEQ(Branch)
+    4: BEQ r0, r1, #0x03H
+    5: add r0, r0, r0
+    6: …
+    7: add r1, r0, r0
+
+    Debug:
+    R0 = 0x0005H
+    R1 = 0x0005H
+    PC/R7 = 0x0004H
+    Result:
+	R0 = 0x0005H
+	R1 = 0x000AH
+	PC does Branch  4-> (4 + 3) -> 7
+
+BEQ(No Branch)
+    4: BEQ r0, r1, #0x03H
+    5: add r0, r0, r0
+    6: …
+
+    Debug:
+    R0 = 0x0005H
+    R1 = 0x0001H
+    PC/R7 = 0x0004H
+    Result:
+	R0 = 0x000AH
+	PC does not Branch
+
+JAL:
+    4: JAL r0,  #0x03H
+    5: add r0, r0, r1
+    6: …
+    7: add r1, r0, r0
+
+    Debug:
+    R0 = 0x0000H
+    R1 = 0x0005H
+    PC/R7 = 0x0004H
+    Result:
+	R0 = 0x0005H
+	R1 = 0x000AH
+	PC does Branch  4-> (4 + 3) -> 7 and (4+1) -> R0
+
+JLR:
+    4: JLR r0, r1
+    5: add r0, r0, r1
+    6: …
+    7: add r1, r0, r0
+
+    Debug:
+    R0 = 0x0000H
+    R1 = 0x0007H
+    PC/R7 = 0x0004H
+    Result:
+	R0 = 0x0005H
+	R1 = 0x0007H
+	PC does Branch  4-> (r1)= 7 and (4+1) -> R0
+
+JRI:
+    4: JRI r0, #0x03H
+    5: add r0, r0, r1
+    6: …
+    7: add r1, r0, r0
+
+    Debug:
+    R0 = 0x0005H
+    R1 = 0x0007H
+    PC/R7 = 0x0004H
+    Result:
+	R0 = 0x0005H
+	R1 = 0x0007H
+	PC does Branch  4-> (r1+0x0002)= 7

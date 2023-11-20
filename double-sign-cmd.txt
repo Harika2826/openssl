@@ -1,0 +1,376 @@
+
+Commands for certificate generation
+
+
+-------------
+||CLASSICAL||
+-------------
+
+ecdsa
+
+apps/openssl req -x509 -new -newkey ec:<(apps/openssl ecparam -name secp384r1) -keyout ecdsa_CA_key.pem -out ecdsa_CA.pem -days 365 -config apps/openssl.cnf
+
+apps/openssl req -new -newkey ec:<(apps/openssl ecparam -name secp384r1) -keyout ecdsa_ica_key.pem -out ecdsa_ica.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in ecdsa_ica.csr -out ecdsa_ica.pem -CA ecdsa_CA.pem -CAkey ecdsa_CA_key.pem -CAcreateserial -days 365
+
+apps/openssl req -new -newkey ec:<(apps/openssl ecparam -name secp384r1) -keyout ecdsa_srv_key.pem -out ecdsa_srv.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in ecdsa_srv.csr -out ecdsa_srv.pem -CA ecdsa_ica.pem -CAkey ecdsa_ica_key.pem -CAcreateserial -days 365
+cat ecdsa_ica.pem ecdsa_srv.pem > ecdsa_combined.pem
+
+apps/openssl x509 -pubkey -noout -in ecdsa_CA.pem  > ecdsa_CA_pubkey.pem
+apps/openssl x509 -pubkey -noout -in ecdsa_ica.pem  > ecdsa_ica_pubkey.pem
+apps/openssl x509 -pubkey -noout -in ecdsa_srv.pem  > ecdsa_srv_pubkey.pem
+
+========================================================
+
+rsa
+
+apps/openssl req -x509 -new -newkey rsa -keyout rsa_CA_key.pem -out rsa_CA.pem -days 365 -config apps/openssl.cnf
+
+apps/openssl req -new -newkey rsa -keyout rsa_ica_key.pem -out rsa_ica.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in rsa_ica.csr -out rsa_ica.pem -CA rsa_CA.pem -CAkey rsa_CA_key.pem -CAcreateserial -days 365
+
+apps/openssl req -new -newkey rsa -keyout rsa_srv_key.pem -out rsa_srv.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in rsa_srv.csr -out rsa_srv.pem -CA rsa_ica.pem -CAkey rsa_ica_key.pem -CAcreateserial -days 365
+cat rsa_ica.pem rsa_srv.pem > rsa_combined.pem
+
+apps/openssl x509 -pubkey -noout -in rsa_CA.pem  > rsa_CA_pubkey.pem
+apps/openssl x509 -pubkey -noout -in rsa_ica.pem  > rsa_ica_pubkey.pem
+apps/openssl x509 -pubkey -noout -in rsa_srv.pem  > rsa_srv_pubkey.pem
+
+
+============================================================
+
+-----------
+||LEVEL-1||
+-----------
+
+fal512
+
+apps/openssl req -x509 -new -newkey falcon512 -keyout falcon512_CA_key.pem -out falcon512_CA.pem -days 365 -config apps/openssl.cnf
+
+apps/openssl req -new -newkey falcon512 -keyout falcon512_ica_key.pem -out falcon512_ica.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in falcon512_ica.csr -out falcon512_ica.pem -CA falcon512_CA.pem -CAkey falcon512_CA_key.pem -CAcreateserial -days 365
+
+apps/openssl req -new -newkey falcon512 -keyout falcon512_srv_key.pem -out falcon512_srv.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in falcon512_srv.csr -out falcon512_srv.pem -CA falcon512_ica.pem -CAkey falcon512_ica_key.pem -CAcreateserial -days 365
+cat falcon512_ica.pem falcon512_srv.pem > falcon512_combined.pem
+
+apps/openssl x509 -pubkey -noout -in falcon512_CA.pem  > falcon512_CA_pubkey.pem
+apps/openssl x509 -pubkey -noout -in falcon512_ica.pem  > falcon512_ica_pubkey.pem
+apps/openssl x509 -pubkey -noout -in falcon512_srv.pem  > falcon512_srv_pubkey.pem
+
+============================================================
+
+sphincssha2128fsimple
+
+apps/openssl req -x509 -new -newkey sphincssha2128fsimple -keyout sphincssha2128fsimple_CA_key.pem -out sphincssha2128fsimple_CA.pem -days 365 -config apps/openssl.cnf
+
+apps/openssl req -new -newkey sphincssha2128fsimple -keyout sphincssha2128fsimple_ica_key.pem -out sphincssha2128fsimple_ica.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in sphincssha2128fsimple_ica.csr -out sphincssha2128fsimple_ica.pem -CA sphincssha2128fsimple_CA.pem -CAkey sphincssha2128fsimple_CA_key.pem -CAcreateserial -days 365
+
+apps/openssl req -new -newkey sphincssha2128fsimple -keyout sphincssha2128fsimple_srv_key.pem -out sphincssha2128fsimple_srv.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in sphincssha2128fsimple_srv.csr -out sphincssha2128fsimple_srv.pem -CA sphincssha2128fsimple_ica.pem -CAkey sphincssha2128fsimple_ica_key.pem -CAcreateserial -days 365
+cat sphincssha2128fsimple_ica.pem sphincssha2128fsimple_srv.pem > sphincssha2128fsimple_combined.pem
+
+apps/openssl x509 -pubkey -noout -in sphincssha2128fsimple_CA.pem  > sphincssha2128fsimple_CA_pubkey.pem
+apps/openssl x509 -pubkey -noout -in sphincssha2128fsimple_ica.pem  > sphincssha2128fsimple_ica_pubkey.pem
+apps/openssl x509 -pubkey -noout -in sphincssha2128fsimple_srv.pem  > sphincssha2128fsimple_srv_pubkey.pem
+
+============================================================
+
+sphincssha2128ssimple
+
+apps/openssl req -x509 -new -newkey sphincssha2128ssimple -keyout sphincssha2128ssimple_CA_key.pem -out sphincssha2128ssimple_CA.pem -days 365 -config apps/openssl.cnf
+
+apps/openssl req -new -newkey sphincssha2128ssimple -keyout sphincssha2128ssimple_ica_key.pem -out sphincssha2128ssimple_ica.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in sphincssha2128ssimple_ica.csr -out sphincssha2128ssimple_ica.pem -CA sphincssha2128ssimple_CA.pem -CAkey sphincssha2128ssimple_CA_key.pem -CAcreateserial -days 365
+
+apps/openssl req -new -newkey sphincssha2128ssimple -keyout sphincssha2128ssimple_srv_key.pem -out sphincssha2128ssimple_srv.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in sphincssha2128ssimple_srv.csr -out sphincssha2128ssimple_srv.pem -CA sphincssha2128ssimple_ica.pem -CAkey sphincssha2128ssimple_ica_key.pem -CAcreateserial -days 365
+cat sphincssha2128ssimple_ica.pem sphincssha2128ssimple_srv.pem > sphincssha2128ssimple_combined.pem
+
+apps/openssl x509 -pubkey -noout -in sphincssha2128ssimple_CA.pem  > sphincssha2128ssimple_CA_pubkey.pem
+apps/openssl x509 -pubkey -noout -in sphincssha2128ssimple_ica.pem  > sphincssha2128ssimple_ica_pubkey.pem
+apps/openssl x509 -pubkey -noout -in sphincssha2128ssimple_srv.pem  > sphincssha2128ssimple_srv_pubkey.pem
+============================================================
+
+-----------
+||LEVEL-3||
+-----------
+
+dilithium3
+
+apps/openssl req -x509 -new -newkey dilithium3 -keyout dilithium3_CA_key.pem -out dilithium3_CA.pem -days 365 -config apps/openssl.cnf
+
+apps/openssl req -new -newkey dilithium3 -keyout dilithium3_ica_key.pem -out dilithium3_ica.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in dilithium3_ica.csr -out dilithium3_ica.pem -CA dilithium3_CA.pem -CAkey dilithium3_CA_key.pem -CAcreateserial -days 365
+
+apps/openssl req -new -newkey dilithium3 -keyout dilithium3_srv_key.pem -out dilithium3_srv.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in dilithium3_srv.csr -out dilithium3_srv.pem -CA dilithium3_ica.pem -CAkey dilithium3_ica_key.pem -CAcreateserial -days 365
+cat dilithium3_ica.pem dilithium3_srv.pem > dilithium3_combined.pem
+
+apps/openssl x509 -pubkey -noout -in dilithium3_CA.pem  > dilithium3_CA_pubkey.pem
+apps/openssl x509 -pubkey -noout -in dilithium3_ica.pem  > dilithium3_ica_pubkey.pem
+apps/openssl x509 -pubkey -noout -in dilithium3_srv.pem  > dilithium3_srv_pubkey.pem
+
+============================================================
+
+sphincssha2192fsimple
+
+apps/openssl req -x509 -new -newkey sphincssha2192fsimple -keyout sphincssha2192fsimple_CA_key.pem -out sphincssha2192fsimple_CA.pem -days 365 -config apps/openssl.cnf
+
+apps/openssl req -new -newkey sphincssha2192fsimple -keyout sphincssha2192fsimple_ica_key.pem -out sphincssha2192fsimple_ica.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in sphincssha2192fsimple_ica.csr -out sphincssha2192fsimple_ica.pem -CA sphincssha2192fsimple_CA.pem -CAkey sphincssha2192fsimple_CA_key.pem -CAcreateserial -days 365
+
+apps/openssl req -new -newkey sphincssha2192fsimple -keyout sphincssha2192fsimple_srv_key.pem -out sphincssha2192fsimple_srv.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in sphincssha2192fsimple_srv.csr -out sphincssha2192fsimple_srv.pem -CA sphincssha2192fsimple_ica.pem -CAkey sphincssha2192fsimple_ica_key.pem -CAcreateserial -days 365
+cat sphincssha2192fsimple_ica.pem sphincssha2192fsimple_srv.pem > sphincssha2192fsimple_combined.pem
+
+apps/openssl x509 -pubkey -noout -in sphincssha2192fsimple_CA.pem  > sphincssha2192fsimple_CA_pubkey.pem
+apps/openssl x509 -pubkey -noout -in sphincssha2192fsimple_ica.pem  > sphincssha2192fsimple_ica_pubkey.pem
+apps/openssl x509 -pubkey -noout -in sphincssha2192fsimple_srv.pem  > sphincssha2192fsimple_srv_pubkey.pem
+
+============================================================
+
+sphincssha2192ssimple
+
+apps/openssl req -x509 -new -newkey sphincssha2192ssimple -keyout sphincssha2192ssimple_CA_key.pem -out sphincssha2192ssimple_CA.pem -days 365 -config apps/openssl.cnf
+
+apps/openssl req -new -newkey sphincssha2192ssimple -keyout sphincssha2192ssimple_ica_key.pem -out sphincssha2192ssimple_ica.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in sphincssha2192ssimple_ica.csr -out sphincssha2192ssimple_ica.pem -CA sphincssha2192ssimple_CA.pem -CAkey sphincssha2192ssimple_CA_key.pem -CAcreateserial -days 365
+
+apps/openssl req -new -newkey sphincssha2192ssimple -keyout sphincssha2192ssimple_srv_key.pem -out sphincssha2192ssimple_srv.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in sphincssha2192ssimple_srv.csr -out sphincssha2192ssimple_srv.pem -CA sphincssha2192ssimple_ica.pem -CAkey sphincssha2192ssimple_ica_key.pem -CAcreateserial -days 365
+cat sphincssha2192ssimple_ica.pem sphincssha2192ssimple_srv.pem > sphincssha2192ssimple_combined.pem
+
+apps/openssl x509 -pubkey -noout -in sphincssha2192ssimple_CA.pem  > sphincssha2192ssimple_CA_pubkey.pem
+apps/openssl x509 -pubkey -noout -in sphincssha2192ssimple_ica.pem  > sphincssha2192ssimple_ica_pubkey.pem
+apps/openssl x509 -pubkey -noout -in sphincssha2192ssimple_srv.pem  > sphincssha2192ssimple_srv_pubkey.pem
+
+============================================================
+
+-----------
+||LEVEL-5||
+-----------
+
+dilithium5
+
+apps/openssl req -x509 -new -newkey dilithium5 -keyout dilithium5_CA_key.pem -out dilithium5_CA.pem -days 365 -config apps/openssl.cnf
+
+apps/openssl req -new -newkey dilithium5 -keyout dilithium5_ica_key.pem -out dilithium5_ica.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in dilithium5_ica.csr -out dilithium5_ica.pem -CA dilithium5_CA.pem -CAkey dilithium5_CA_key.pem -CAcreateserial -days 365
+
+apps/openssl req -new -newkey dilithium5 -keyout dilithium5_srv_key.pem -out dilithium5_srv.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in dilithium5_srv.csr -out dilithium5_srv.pem -CA dilithium5_ica.pem -CAkey dilithium5_ica_key.pem -CAcreateserial -days 365
+cat dilithium5_ica.pem dilithium5_srv.pem > dilithium5_combined.pem
+
+apps/openssl x509 -pubkey -noout -in dilithium5_CA.pem  > dilithium5_CA_pubkey.pem
+apps/openssl x509 -pubkey -noout -in dilithium5_ica.pem  > dilithium5_ica_pubkey.pem
+apps/openssl x509 -pubkey -noout -in dilithium5_srv.pem  > dilithium5_srv_pubkey.pem
+
+============================================================
+
+fal1024
+
+apps/openssl req -x509 -new -newkey falcon1024 -keyout falcon1024_CA_key.pem -out falcon1024_CA.pem -days 365 -config apps/openssl.cnf
+
+apps/openssl req -new -newkey falcon1024 -keyout falcon1024_ica_key.pem -out falcon1024_ica.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in falcon1024_ica.csr -out falcon1024_ica.pem -CA falcon1024_CA.pem -CAkey falcon1024_CA_key.pem -CAcreateserial -days 365
+
+apps/openssl req -new -newkey falcon1024 -keyout falcon1024_srv_key.pem -out falcon1024_srv.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in falcon1024_srv.csr -out falcon1024_srv.pem -CA falcon1024_ica.pem -CAkey falcon1024_ica_key.pem -CAcreateserial -days 365
+cat falcon1024_ica.pem falcon1024_srv.pem > falcon1024_combined.pem
+
+apps/openssl x509 -pubkey -noout -in falcon1024_CA.pem  > falcon1024_CA_pubkey.pem
+apps/openssl x509 -pubkey -noout -in falcon1024_ica.pem  > falcon1024_ica_pubkey.pem
+apps/openssl x509 -pubkey -noout -in falcon1024_srv.pem  > falcon1024_srv_pubkey.pem
+
+============================================================
+
+sphincssha2256fsimple
+
+apps/openssl req -x509 -new -newkey sphincssha2256fsimple -keyout sphincssha2256fsimple_CA_key.pem -out sphincssha2256fsimple_CA.pem -days 365 -config apps/openssl.cnf
+
+apps/openssl req -new -newkey sphincssha2256fsimple -keyout sphincssha2256fsimple_ica_key.pem -out sphincssha2256fsimple_ica.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in sphincssha2256fsimple_ica.csr -out sphincssha2256fsimple_ica.pem -CA sphincssha2256fsimple_CA.pem -CAkey sphincssha2256fsimple_CA_key.pem -CAcreateserial -days 365
+
+apps/openssl req -new -newkey sphincssha2256fsimple -keyout sphincssha2256fsimple_srv_key.pem -out sphincssha2256fsimple_srv.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in sphincssha2256fsimple_srv.csr -out sphincssha2256fsimple_srv.pem -CA sphincssha2256fsimple_ica.pem -CAkey sphincssha2256fsimple_ica_key.pem -CAcreateserial -days 365
+cat sphincssha2256fsimple_ica.pem sphincssha2256fsimple_srv.pem > sphincssha2256fsimple_combined.pem
+
+apps/openssl x509 -pubkey -noout -in sphincssha2256fsimple_CA.pem  > sphincssha2256fsimple_CA_pubkey.pem
+apps/openssl x509 -pubkey -noout -in sphincssha2256fsimple_ica.pem  > sphincssha2256fsimple_ica_pubkey.pem
+apps/openssl x509 -pubkey -noout -in sphincssha2256fsimple_srv.pem  > sphincssha2256fsimple_srv_pubkey.pem
+
+============================================================
+
+sphincssha2256ssimple
+
+apps/openssl req -x509 -new -newkey sphincssha2256ssimple -keyout sphincssha2256ssimple_CA_key.pem -out sphincssha2256ssimple_CA.pem -days 365 -config apps/openssl.cnf
+
+apps/openssl req -new -newkey sphincssha2256ssimple -keyout sphincssha2256ssimple_ica_key.pem -out sphincssha2256ssimple_ica.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in sphincssha2256ssimple_ica.csr -out sphincssha2256ssimple_ica.pem -CA sphincssha2256ssimple_CA.pem -CAkey sphincssha2256ssimple_CA_key.pem -CAcreateserial -days 365
+
+apps/openssl req -new -newkey sphincssha2256ssimple -keyout sphincssha2256ssimple_srv_key.pem -out sphincssha2256ssimple_srv.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in sphincssha2256ssimple_srv.csr -out sphincssha2256ssimple_srv.pem -CA sphincssha2256ssimple_ica.pem -CAkey sphincssha2256ssimple_ica_key.pem -CAcreateserial -days 365
+cat sphincssha2256ssimple_ica.pem sphincssha2256ssimple_srv.pem > sphincssha2256ssimple_combined.pem
+
+apps/openssl x509 -pubkey -noout -in sphincssha2256ssimple_CA.pem  > sphincssha2256ssimple_CA_pubkey.pem
+apps/openssl x509 -pubkey -noout -in sphincssha2256ssimple_ica.pem  > sphincssha2256ssimple_ica_pubkey.pem
+apps/openssl x509 -pubkey -noout -in sphincssha2256ssimple_srv.pem  > sphincssha2256ssimple_srv_pubkey.pem
+
+=======================================================++++++++++++++++++++++++++++++++++++++++++++++============================================================================
+
+COMMANDS TO GENERATE DOUBLE SIGNATURE AND VERIFICATION
+
+-------------------
+||RSA COMBINATIONS|| ----->rsa for first level signing then followed by pqc schemes for second level signing.
+-------------------
+
+rsa
+
+bash signature.sh f0.zip f1.img.xz f2.zip rsa_CA_key.pem rsa_ica_key.pem rsa_srv_key.pem rsa_CA_key.pem rsa_ica_key.pem rsa_srv_key.pem
+valgrind bash sign_verify.sh f0.zip f1.img.xz f2.zip signature.sha256 signaturea.sha256 signatureb.sha256 rsa_CA_pubkey.pem rsa_ica_pubkey.pem rsa_srv_pubkey.pem combined_zero_stage_sig.sha256 combined_first_stage_sig.sha256 combined_second_stage_sig.sha256 double_sign_zero_stage1.sha256 double_sign_first_stage2.sha256 double_sign_second_stage3.sha256 rsa_CA_pubkey.pem rsa_ica_pubkey.pem rsa_srv_pubkey.pem
+
+---------------------------
+
+rsa+falcon512
+
+bash signature.sh f0.zip f1.img.xz f2.zip rsa_CA_key.pem rsa_ica_key.pem rsa_srv_key.pem falcon512_CA_key.pem falcon512_ica_key.pem falcon512_srv_key.pem 
+valgrind bash sign_verify.sh f0.zip f1.img.xz f2.zip signature.sha256 signaturea.sha256 signatureb.sha256 rsa_CA_pubkey.pem rsa_ica_pubkey.pem rsa_srv_pubkey.pem combined_zero_stage_sig.sha256 combined_first_stage_sig.sha256 combined_second_stage_sig.sha256 double_sign_zero_stage1.sha256 double_sign_first_stage2.sha256 double_sign_second_stage3.sha256 falcon512_CA_pubkey.pem falcon512_ica_pubkey.pem falcon512_srv_pubkey.pem
+
+--------------------------
+
+rsa+sphincssha2128fsimple
+
+bash signature.sh f0.zip f1.img.xz f2.zip rsa_CA_key.pem rsa_ica_key.pem rsa_srv_key.pem sphincssha2128fsimple_CA_key.pem sphincssha2128fsimple_ica_key.pem sphincssha2128fsimple_srv_key.pem 
+valgrind bash sign_verify.sh f0.zip f1.img.xz f2.zip signature.sha256 signaturea.sha256 signatureb.sha256 rsa_CA_pubkey.pem rsa_ica_pubkey.pem rsa_srv_pubkey.pem combined_zero_stage_sig.sha256 combined_first_stage_sig.sha256 combined_second_stage_sig.sha256 double_sign_zero_stage1.sha256 double_sign_first_stage2.sha256 double_sign_second_stage3.sha256 sphincssha2128fsimple_CA_pubkey.pem sphincssha2128fsimple_ica_pubkey.pem sphincssha2128fsimple_srv_pubkey.pem
+
+------------------------------
+
+rsa+sphincssha2128ssimple
+
+bash signature.sh f0.zip f1.img.xz f2.zip rsa_CA_key.pem rsa_ica_key.pem rsa_srv_key.pem sphincssha2128ssimple_CA_key.pem sphincssha2128ssimple_ica_key.pem sphincssha2128ssimple_srv_key.pem 
+valgrind bash sign_verify.sh f0.zip f1.img.xz f2.zip signature.sha256 signaturea.sha256 signatureb.sha256 rsa_CA_pubkey.pem rsa_ica_pubkey.pem rsa_srv_pubkey.pem combined_zero_stage_sig.sha256 combined_first_stage_sig.sha256 combined_second_stage_sig.sha256 double_sign_zero_stage1.sha256 double_sign_first_stage2.sha256 double_sign_second_stage3.sha256 sphincssha2128ssimple_CA_pubkey.pem sphincssha2128ssimple_ica_pubkey.pem sphincssha2128ssimple_srv_pubkey.pem
+
+------------------------------
+
+rsa+dilithium3
+
+bash signature.sh f0.zip f1.img.xz f2.zip rsa_CA_key.pem rsa_ica_key.pem rsa_srv_key.pem dilithium3_CA_key.pem dilithium3_ica_key.pem dilithium3_srv_key.pem 
+valgrind bash sign_verify.sh f0.zip f1.img.xz f2.zip signature.sha256 signaturea.sha256 signatureb.sha256 rsa_CA_pubkey.pem rsa_ica_pubkey.pem rsa_srv_pubkey.pem combined_zero_stage_sig.sha256 combined_first_stage_sig.sha256 combined_second_stage_sig.sha256 double_sign_zero_stage1.sha256 double_sign_first_stage2.sha256 double_sign_second_stage3.sha256 dilithium3_CA_pubkey.pem dilithium3_ica_pubkey.pem dilithium3_srv_pubkey.pem
+
+----------------------------------
+rsa+sphincssha2192fsimple
+
+bash signature.sh f0.zip f1.img.xz f2.zip rsa_CA_key.pem rsa_ica_key.pem rsa_srv_key.pem sphincssha2192fsimple_CA_key.pem sphincssha2192fsimple_ica_key.pem sphincssha2192fsimple_srv_key.pem 
+valgrind bash sign_verify.sh f0.zip f1.img.xz f2.zip signature.sha256 signaturea.sha256 signatureb.sha256 rsa_CA_pubkey.pem rsa_ica_pubkey.pem rsa_srv_pubkey.pem combined_zero_stage_sig.sha256 combined_first_stage_sig.sha256 combined_second_stage_sig.sha256 double_sign_zero_stage1.sha256 double_sign_first_stage2.sha256 double_sign_second_stage3.sha256 sphincssha2192fsimple_CA_pubkey.pem sphincssha2192fsimple_ica_pubkey.pem sphincssha2192fsimple_srv_pubkey.pem
+
+------------------------------
+
+rsa+sphincssha2192ssimple
+
+bash signature.sh f0.zip f1.img.xz f2.zip rsa_CA_key.pem rsa_ica_key.pem rsa_srv_key.pem sphincssha2192ssimple_CA_key.pem sphincssha2192ssimple_ica_key.pem sphincssha2192ssimple_srv_key.pem 
+valgrind bash sign_verify.sh f0.zip f1.img.xz f2.zip signature.sha256 signaturea.sha256 signatureb.sha256 rsa_CA_pubkey.pem rsa_ica_pubkey.pem rsa_srv_pubkey.pem combined_zero_stage_sig.sha256 combined_first_stage_sig.sha256 combined_second_stage_sig.sha256 double_sign_zero_stage1.sha256 double_sign_first_stage2.sha256 double_sign_second_stage3.sha256 sphincssha2192ssimple_CA_pubkey.pem sphincssha2192ssimple_ica_pubkey.pem sphincssha2192ssimple_srv_pubkey.pem
+
+-------------------------------
+
+rsa+dilithium5
+
+bash signature.sh f0.zip f1.img.xz f2.zip rsa_CA_key.pem rsa_ica_key.pem rsa_srv_key.pem dilithium5_CA_key.pem dilithium5_ica_key.pem dilithium5_srv_key.pem 
+valgrind bash sign_verify.sh f0.zip f1.img.xz f2.zip signature.sha256 signaturea.sha256 signatureb.sha256 rsa_CA_pubkey.pem rsa_ica_pubkey.pem rsa_srv_pubkey.pem combined_zero_stage_sig.sha256 combined_first_stage_sig.sha256 combined_second_stage_sig.sha256 double_sign_zero_stage1.sha256 double_sign_first_stage2.sha256 double_sign_second_stage3.sha256 dilithium5_CA_pubkey.pem dilithium5_ica_pubkey.pem dilithium5_srv_pubkey.pem
+
+-----------------------------------
+
+rsa+falcon1024
+
+bash signature.sh f0.zip f1.img.xz f2.zip rsa_CA_key.pem rsa_ica_key.pem rsa_srv_key.pem falcon1024_CA_key.pem falcon1024_ica_key.pem falcon1024_srv_key.pem 
+valgrind bash sign_verify.sh f0.zip f1.img.xz f2.zip signature.sha256 signaturea.sha256 signatureb.sha256 rsa_CA_pubkey.pem rsa_ica_pubkey.pem rsa_srv_pubkey.pem combined_zero_stage_sig.sha256 combined_first_stage_sig.sha256 combined_second_stage_sig.sha256 double_sign_zero_stage1.sha256 double_sign_first_stage2.sha256 double_sign_second_stage3.sha256 falcon1024_CA_pubkey.pem falcon1024_ica_pubkey.pem falcon1024_srv_pubkey.pem
+
+--------------------------
+rsa+sphincssha2256fsimple
+
+bash signature.sh f0.zip f1.img.xz f2.zip rsa_CA_key.pem rsa_ica_key.pem rsa_srv_key.pem sphincssha2256fsimple_CA_key.pem sphincssha2256fsimple_ica_key.pem sphincssha2256fsimple_srv_key.pem 
+valgrind bash sign_verify.sh f0.zip f1.img.xz f2.zip signature.sha256 signaturea.sha256 signatureb.sha256 rsa_CA_pubkey.pem rsa_ica_pubkey.pem rsa_srv_pubkey.pem combined_zero_stage_sig.sha256 combined_first_stage_sig.sha256 combined_second_stage_sig.sha256 double_sign_zero_stage1.sha256 double_sign_first_stage2.sha256 double_sign_second_stage3.sha256 sphincssha2256fsimple_CA_pubkey.pem sphincssha2256fsimple_ica_pubkey.pem sphincssha2256fsimple_srv_pubkey.pem
+----------------------------
+
+rsa+sphincssha2256ssimple
+
+bash signature.sh f0.zip f1.img.xz f2.zip rsa_CA_key.pem rsa_ica_key.pem rsa_srv_key.pem sphincssha2256ssimple_CA_key.pem sphincssha2256ssimple_ica_key.pem sphincssha2256ssimple_srv_key.pem 
+	valgrind bash sign_verify.sh f0.zip f1.img.xz f2.zip signature.sha256 signaturea.sha256 signatureb.sha256 rsa_CA_pubkey.pem rsa_ica_pubkey.pem rsa_srv_pubkey.pem combined_zero_stage_sig.sha256 combined_first_stage_sig.sha256 combined_second_stage_sig.sha256 double_sign_zero_stage1.sha256 double_sign_first_stage2.sha256 double_sign_second_stage3.sha256 sphincssha2256ssimple_CA_pubkey.pem sphincssha2256ssimple_ica_pubkey.pem sphincssha2256ssimple_srv_pubkey.pem
+
+=================================================================================================================================================================================
+
+---------------------
+||ECDSA COMBINATIONS|| ----->ecdsa for first level signing then followed by pqc schemes for second level signing.
+---------------------
+
+ecdsa
+
+bash signature.sh f0.zip f1.img.xz f2.zip ecdsa_CA_key.pem ecdsa_ica_key.pem ecdsa_srv_key.pem ecdsa_CA_key.pem ecdsa_ica_key.pem ecdsa_srv_key.pem
+valgrind bash sign_verify.sh f0.zip f1.img.xz f2.zip signature.sha256 signaturea.sha256 signatureb.sha256 ecdsa_CA_pubkey.pem ecdsa_ica_pubkey.pem ecdsa_srv_pubkey.pem combined_zero_stage_sig.sha256 combined_first_stage_sig.sha256 combined_second_stage_sig.sha256 double_sign_zero_stage1.sha256 double_sign_first_stage2.sha256 double_sign_second_stage3.sha256 ecdsa_CA_pubkey.pem ecdsa_ica_pubkey.pem ecdsa_srv_pubkey.pem
+
+--------------------------
+ecdsa+falcon512
+
+bash signature.sh f0.zip f1.img.xz f2.zip ecdsa_CA_key.pem ecdsa_ica_key.pem ecdsa_srv_key.pem falcon512_CA_key.pem falcon512_ica_key.pem falcon512_srv_key.pem 
+valgrind bash sign_verify.sh f0.zip f1.img.xz f2.zip signature.sha256 signaturea.sha256 signatureb.sha256 ecdsa_CA_pubkey.pem ecdsa_ica_pubkey.pem ecdsa_srv_pubkey.pem combined_zero_stage_sig.sha256 combined_first_stage_sig.sha256 combined_second_stage_sig.sha256 double_sign_zero_stage1.sha256 double_sign_first_stage2.sha256 double_sign_second_stage3.sha256 falcon512_CA_pubkey.pem falcon512_ica_pubkey.pem falcon512_srv_pubkey.pem
+
+---------------------------
+
+ecdsa+sphincssha2128fsimple
+
+bash signature.sh f0.zip f1.img.xz f2.zip ecdsa_CA_key.pem ecdsa_ica_key.pem ecdsa_srv_key.pem sphincssha2128fsimple_CA_key.pem sphincssha2128fsimple_ica_key.pem sphincssha2128fsimple_srv_key.pem 
+valgrind bash sign_verify.sh f0.zip f1.img.xz f2.zip signature.sha256 signaturea.sha256 signatureb.sha256 ecdsa_CA_pubkey.pem ecdsa_ica_pubkey.pem ecdsa_srv_pubkey.pem combined_zero_stage_sig.sha256 combined_first_stage_sig.sha256 combined_second_stage_sig.sha256 double_sign_zero_stage1.sha256 double_sign_first_stage2.sha256 double_sign_second_stage3.sha256 sphincssha2128fsimple_CA_pubkey.pem sphincssha2128fsimple_ica_pubkey.pem sphincssha2128fsimple_srv_pubkey.pem
+---------------------------
+
+ecdsa+sphincssha2128ssimple
+
+bash signature.sh f0.zip f1.img.xz f2.zip ecdsa_CA_key.pem ecdsa_ica_key.pem ecdsa_srv_key.pem sphincssha2128ssimple_CA_key.pem sphincssha2128ssimple_ica_key.pem sphincssha2128ssimple_srv_key.pem 
+valgrind bash sign_verify.sh f0.zip f1.img.xz f2.zip signature.sha256 signaturea.sha256 signatureb.sha256 ecdsa_CA_pubkey.pem ecdsa_ica_pubkey.pem ecdsa_srv_pubkey.pem combined_zero_stage_sig.sha256 combined_first_stage_sig.sha256 combined_second_stage_sig.sha256 double_sign_zero_stage1.sha256 double_sign_first_stage2.sha256 double_sign_second_stage3.sha256 sphincssha2128ssimple_CA_pubkey.pem sphincssha2128ssimple_ica_pubkey.pem sphincssha2128ssimple_srv_pubkey.pem
+---------------------------
+
+ecdsa+dilithium3
+
+bash signature.sh f0.zip f1.img.xz f2.zip ecdsa_CA_key.pem ecdsa_ica_key.pem ecdsa_srv_key.pem dilithium3_CA_key.pem dilithium3_ica_key.pem dilithium3_srv_key.pem 
+valgrind bash sign_verify.sh f0.zip f1.img.xz f2.zip signature.sha256 signaturea.sha256 signatureb.sha256 ecdsa_CA_pubkey.pem ecdsa_ica_pubkey.pem ecdsa_srv_pubkey.pem combined_zero_stage_sig.sha256 combined_first_stage_sig.sha256 combined_second_stage_sig.sha256 double_sign_zero_stage1.sha256 double_sign_first_stage2.sha256 double_sign_second_stage3.sha256 dilithium3_CA_pubkey.pem dilithium3_ica_pubkey.pem dilithium3_srv_pubkey.pem
+
+----------------------------
+ecdsa+sphincssha2192fsimple
+
+bash signature.sh f0.zip f1.img.xz f2.zip ecdsa_CA_key.pem ecdsa_ica_key.pem ecdsa_srv_key.pem sphincssha2192fsimple_CA_key.pem sphincssha2192fsimple_ica_key.pem sphincssha2192fsimple_srv_key.pem 
+valgrind bash sign_verify.sh f0.zip f1.img.xz f2.zip signature.sha256 signaturea.sha256 signatureb.sha256 ecdsa_CA_pubkey.pem ecdsa_ica_pubkey.pem ecdsa_srv_pubkey.pem combined_zero_stage_sig.sha256 combined_first_stage_sig.sha256 combined_second_stage_sig.sha256 double_sign_zero_stage1.sha256 double_sign_first_stage2.sha256 double_sign_second_stage3.sha256 sphincssha2192fsimple_CA_pubkey.pem sphincssha2192fsimple_ica_pubkey.pem sphincssha2192fsimple_srv_pubkey.pem
+---------------------------
+
+ecdsa+sphincssha2192ssimple
+
+bash signature.sh f0.zip f1.img.xz f2.zip ecdsa_CA_key.pem ecdsa_ica_key.pem ecdsa_srv_key.pem sphincssha2192ssimple_CA_key.pem sphincssha2192ssimple_ica_key.pem sphincssha2192ssimple_srv_key.pem 
+valgrind bash sign_verify.sh f0.zip f1.img.xz f2.zip signature.sha256 signaturea.sha256 signatureb.sha256 ecdsa_CA_pubkey.pem ecdsa_ica_pubkey.pem ecdsa_srv_pubkey.pem combined_zero_stage_sig.sha256 combined_first_stage_sig.sha256 combined_second_stage_sig.sha256 double_sign_zero_stage1.sha256 double_sign_first_stage2.sha256 double_sign_second_stage3.sha256 sphincssha2192ssimple_CA_pubkey.pem sphincssha2192ssimple_ica_pubkey.pem sphincssha2192ssimple_srv_pubkey.pem
+
+---------------------------
+ecdsa+dilithium5
+
+bash signature.sh f0.zip f1.img.xz f2.zip ecdsa_CA_key.pem ecdsa_ica_key.pem ecdsa_srv_key.pem dilithium5_CA_key.pem dilithium5_ica_key.pem dilithium5_srv_key.pem 
+valgrind bash sign_verify.sh f0.zip f1.img.xz f2.zip signature.sha256 signaturea.sha256 signatureb.sha256 ecdsa_CA_pubkey.pem ecdsa_ica_pubkey.pem ecdsa_srv_pubkey.pem combined_zero_stage_sig.sha256 combined_first_stage_sig.sha256 combined_second_stage_sig.sha256 double_sign_zero_stage1.sha256 double_sign_first_stage2.sha256 double_sign_second_stage3.sha256 dilithium5_CA_pubkey.pem dilithium5_ica_pubkey.pem dilithium5_srv_pubkey.pem
+----------------------------
+
+ecdsa+falcon1024
+
+bash signature.sh f0.zip f1.img.xz f2.zip ecdsa_CA_key.pem ecdsa_ica_key.pem ecdsa_srv_key.pem falcon1024_CA_key.pem falcon1024_ica_key.pem falcon1024_srv_key.pem 
+valgrind bash sign_verify.sh f0.zip f1.img.xz f2.zip signature.sha256 signaturea.sha256 signatureb.sha256 ecdsa_CA_pubkey.pem ecdsa_ica_pubkey.pem ecdsa_srv_pubkey.pem combined_zero_stage_sig.sha256 combined_first_stage_sig.sha256 combined_second_stage_sig.sha256 double_sign_zero_stage1.sha256 double_sign_first_stage2.sha256 double_sign_second_stage3.sha256 falcon1024_CA_pubkey.pem falcon1024_ica_pubkey.pem falcon1024_srv_pubkey.pem
+
+---------------------------
+
+ecdsa+sphincssha2256fsimple
+
+bash signature.sh f0.zip f1.img.xz f2.zip ecdsa_CA_key.pem ecdsa_ica_key.pem ecdsa_srv_key.pem sphincssha2256fsimple_CA_key.pem sphincssha2256fsimple_ica_key.pem sphincssha2256fsimple_srv_key.pem 
+valgrind bash sign_verify.sh f0.zip f1.img.xz f2.zip signature.sha256 signaturea.sha256 signatureb.sha256 ecdsa_CA_pubkey.pem ecdsa_ica_pubkey.pem ecdsa_srv_pubkey.pem combined_zero_stage_sig.sha256 combined_first_stage_sig.sha256 combined_second_stage_sig.sha256 double_sign_zero_stage1.sha256 double_sign_first_stage2.sha256 double_sign_second_stage3.sha256 sphincssha2256fsimple_CA_pubkey.pem sphincssha2256fsimple_ica_pubkey.pem sphincssha2256fsimple_srv_pubkey.pem
+----------------------------
+
+ecdsa+sphincssha2256ssimple
+
+bash signature.sh f0.zip f1.img.xz f2.zip ecdsa_CA_key.pem ecdsa_ica_key.pem ecdsa_srv_key.pem sphincssha2256ssimple_CA_key.pem sphincssha2256ssimple_ica_key.pem sphincssha2256ssimple_srv_key.pem 
+valgrind bash sign_verify.sh f0.zip f1.img.xz f2.zip signature.sha256 signaturea.sha256 signatureb.sha256 ecdsa_CA_pubkey.pem ecdsa_ica_pubkey.pem ecdsa_srv_pubkey.pem combined_zero_stage_sig.sha256 combined_first_stage_sig.sha256 combined_second_stage_sig.sha256 double_sign_zero_stage1.sha256 double_sign_first_stage2.sha256 double_sign_second_stage3.sha256 sphincssha2256ssimple_CA_pubkey.pem sphincssha2256ssimple_ica_pubkey.pem sphincssha2256ssimple_srv_pubkey.pem
+
+

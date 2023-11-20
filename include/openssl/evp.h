@@ -84,13 +84,30 @@
 # define EVP_PKEY_RSA3072_SPHINCSSHA2128SSIMPLE NID_rsa3072_sphincssha2128ssimple
 # define EVP_PKEY_SPHINCSSHA2192FSIMPLE NID_sphincssha2192fsimple
 # define EVP_PKEY_P384_SPHINCSSHA2192FSIMPLE NID_p384_sphincssha2192fsimple
+# define EVP_PKEY_SPHINCSSHA2192SSIMPLE NID_sphincssha2192ssimple
+# define EVP_PKEY_P384_SPHINCSSHA2192SSIMPLE NID_p384_sphincssha2192ssimple
+# define EVP_PKEY_SPHINCSSHA2256FSIMPLE NID_sphincssha2256fsimple
+# define EVP_PKEY_P521_SPHINCSSHA2256FSIMPLE NID_p521_sphincssha2256fsimple
+# define EVP_PKEY_SPHINCSSHA2256SSIMPLE NID_sphincssha2256ssimple
+# define EVP_PKEY_P521_SPHINCSSHA2256SSIMPLE NID_p521_sphincssha2256ssimple
 # define EVP_PKEY_SPHINCSSHAKE128FSIMPLE NID_sphincsshake128fsimple
 # define EVP_PKEY_P256_SPHINCSSHAKE128FSIMPLE NID_p256_sphincsshake128fsimple
 # define EVP_PKEY_RSA3072_SPHINCSSHAKE128FSIMPLE NID_rsa3072_sphincsshake128fsimple
-#define OQS_OPENSSL_SIG_algs_length 23
+# define EVP_PKEY_SPHINCSSHAKE128SSIMPLE NID_sphincsshake128ssimple
+# define EVP_PKEY_P256_SPHINCSSHAKE128SSIMPLE NID_p256_sphincsshake128ssimple
+# define EVP_PKEY_RSA3072_SPHINCSSHAKE128SSIMPLE NID_rsa3072_sphincsshake128ssimple
+# define EVP_PKEY_SPHINCSSHAKE192FSIMPLE NID_sphincsshake192fsimple
+# define EVP_PKEY_P384_SPHINCSSHAKE192FSIMPLE NID_p384_sphincsshake192fsimple
+# define EVP_PKEY_SPHINCSSHAKE192SSIMPLE NID_sphincsshake192ssimple
+# define EVP_PKEY_P384_SPHINCSSHAKE192SSIMPLE NID_p384_sphincsshake192ssimple
+# define EVP_PKEY_SPHINCSSHAKE256FSIMPLE NID_sphincsshake256fsimple
+# define EVP_PKEY_P521_SPHINCSSHAKE256FSIMPLE NID_p521_sphincsshake256fsimple
+# define EVP_PKEY_SPHINCSSHAKE256SSIMPLE NID_sphincsshake256ssimple
+# define EVP_PKEY_P521_SPHINCSSHAKE256SSIMPLE NID_p521_sphincsshake256ssimple
+#define OQS_OPENSSL_SIG_algs_length 40
 #define OQS_OPENSSL_KEM_algs_length 15
 #define IS_OQS_OPENSSL_KEM_NID(a) ((a >= 0x01FF) && (a <= NID_p521_hqc256))
-#define IS_OQS_OPENSSL_SIG_NID(a) ((a >= NID_dilithium2) && (a <= NID_rsa3072_sphincsshake128fsimple))
+#define IS_OQS_OPENSSL_SIG_NID(a) ((a >= NID_dilithium2) && (a <= NID_p521_sphincsshake256ssimple))
 /////// OQS_TEMPLATE_FRAGMENT_DEFINE_EVP_PKEYS_END
 const char *OQSKEM_options(void);
 const char *OQSSIG_options(void);

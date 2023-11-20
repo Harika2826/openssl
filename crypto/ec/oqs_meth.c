@@ -96,9 +96,26 @@ int oqssl_sig_nids_list[] = {
         NID_rsa3072_sphincssha2128ssimple,
         NID_sphincssha2192fsimple,
         NID_p384_sphincssha2192fsimple,
+        NID_sphincssha2192ssimple,
+        NID_p384_sphincssha2192ssimple,
+        NID_sphincssha2256fsimple,
+        NID_p521_sphincssha2256fsimple,
+        NID_sphincssha2256ssimple,
+        NID_p521_sphincssha2256ssimple,
         NID_sphincsshake128fsimple,
         NID_p256_sphincsshake128fsimple,
         NID_rsa3072_sphincsshake128fsimple,
+        NID_sphincsshake128ssimple,
+        NID_p256_sphincsshake128ssimple,
+        NID_rsa3072_sphincsshake128ssimple,
+        NID_sphincsshake192fsimple,
+        NID_p384_sphincsshake192fsimple,
+        NID_sphincsshake192ssimple,
+        NID_p384_sphincsshake192ssimple,
+        NID_sphincsshake256fsimple,
+        NID_p521_sphincsshake256fsimple,
+        NID_sphincsshake256ssimple,
+        NID_p521_sphincsshake256ssimple,
 /////// OQS_TEMPLATE_FRAGMENT_LIST_KNOWN_NIDS_END
 };
 
@@ -177,10 +194,35 @@ char* get_oqs_alg_name(int openssl_nid)
     case NID_sphincssha2192fsimple:
     case NID_p384_sphincssha2192fsimple:
       return OQS_SIG_alg_sphincs_sha2_192f_simple;
+    case NID_sphincssha2192ssimple:
+    case NID_p384_sphincssha2192ssimple:
+      return OQS_SIG_alg_sphincs_sha2_192s_simple;
+    case NID_sphincssha2256fsimple:
+    case NID_p521_sphincssha2256fsimple:
+      return OQS_SIG_alg_sphincs_sha2_256f_simple;
+    case NID_sphincssha2256ssimple:
+    case NID_p521_sphincssha2256ssimple:
+      return OQS_SIG_alg_sphincs_sha2_256s_simple;
     case NID_sphincsshake128fsimple:
     case NID_p256_sphincsshake128fsimple:
     case NID_rsa3072_sphincsshake128fsimple:
       return OQS_SIG_alg_sphincs_shake_128f_simple;
+    case NID_sphincsshake128ssimple:
+    case NID_p256_sphincsshake128ssimple:
+    case NID_rsa3072_sphincsshake128ssimple:
+      return OQS_SIG_alg_sphincs_shake_128s_simple;
+    case NID_sphincsshake192fsimple:
+    case NID_p384_sphincsshake192fsimple:
+      return OQS_SIG_alg_sphincs_shake_192f_simple;
+    case NID_sphincsshake192ssimple:
+    case NID_p384_sphincsshake192ssimple:
+      return OQS_SIG_alg_sphincs_shake_192s_simple;
+    case NID_sphincsshake256fsimple:
+    case NID_p521_sphincsshake256fsimple:
+      return OQS_SIG_alg_sphincs_shake_256f_simple;
+    case NID_sphincsshake256ssimple:
+    case NID_p521_sphincsshake256ssimple:
+      return OQS_SIG_alg_sphincs_shake_256s_simple;
     case NID_frodo640aes:
     case NID_p256_frodo640aes:
       return OQS_KEM_alg_frodokem_640_aes;
@@ -249,8 +291,17 @@ static int is_oqs_hybrid_alg(int openssl_nid)
     case NID_p256_sphincssha2128ssimple:
     case NID_rsa3072_sphincssha2128ssimple:
     case NID_p384_sphincssha2192fsimple:
+    case NID_p384_sphincssha2192ssimple:
+    case NID_p521_sphincssha2256fsimple:
+    case NID_p521_sphincssha2256ssimple:
     case NID_p256_sphincsshake128fsimple:
     case NID_rsa3072_sphincsshake128fsimple:
+    case NID_p256_sphincsshake128ssimple:
+    case NID_rsa3072_sphincsshake128ssimple:
+    case NID_p384_sphincsshake192fsimple:
+    case NID_p384_sphincsshake192ssimple:
+    case NID_p521_sphincsshake256fsimple:
+    case NID_p521_sphincsshake256ssimple:
 ///// OQS_TEMPLATE_FRAGMENT_LIST_HYBRID_NIDS_END
       return 1;
     default:
@@ -269,18 +320,27 @@ static int get_classical_nid(int hybrid_id)
     case NID_rsa3072_sphincssha2128fsimple:
     case NID_rsa3072_sphincssha2128ssimple:
     case NID_rsa3072_sphincsshake128fsimple:
+    case NID_rsa3072_sphincsshake128ssimple:
       return NID_rsaEncryption;
     case NID_p256_dilithium2:
     case NID_p256_falcon512:
     case NID_p256_sphincssha2128fsimple:
     case NID_p256_sphincssha2128ssimple:
     case NID_p256_sphincsshake128fsimple:
+    case NID_p256_sphincsshake128ssimple:
       return NID_X9_62_prime256v1;
     case NID_p384_dilithium3:
     case NID_p384_sphincssha2192fsimple:
+    case NID_p384_sphincssha2192ssimple:
+    case NID_p384_sphincsshake192fsimple:
+    case NID_p384_sphincsshake192ssimple:
       return NID_secp384r1;
     case NID_p521_dilithium5:
     case NID_p521_falcon1024:
+    case NID_p521_sphincssha2256fsimple:
+    case NID_p521_sphincssha2256ssimple:
+    case NID_p521_sphincsshake256fsimple:
+    case NID_p521_sphincsshake256ssimple:
       return NID_secp521r1;///// OQS_TEMPLATE_FRAGMENT_ASSIGN_CLASSICAL_NIDS_END
     default:
       return 0;
@@ -312,9 +372,26 @@ static int get_oqs_nid(int hybrid_id)
       return NID_sphincssha2128ssimple;
     case NID_p384_sphincssha2192fsimple:
       return NID_sphincssha2192fsimple;
+    case NID_p384_sphincssha2192ssimple:
+      return NID_sphincssha2192ssimple;
+    case NID_p521_sphincssha2256fsimple:
+      return NID_sphincssha2256fsimple;
+    case NID_p521_sphincssha2256ssimple:
+      return NID_sphincssha2256ssimple;
     case NID_p256_sphincsshake128fsimple:
     case NID_rsa3072_sphincsshake128fsimple:
       return NID_sphincsshake128fsimple;
+    case NID_p256_sphincsshake128ssimple:
+    case NID_rsa3072_sphincsshake128ssimple:
+      return NID_sphincsshake128ssimple;
+    case NID_p384_sphincsshake192fsimple:
+      return NID_sphincsshake192fsimple;
+    case NID_p384_sphincsshake192ssimple:
+      return NID_sphincsshake192ssimple;
+    case NID_p521_sphincsshake256fsimple:
+      return NID_sphincsshake256fsimple;
+    case NID_p521_sphincsshake256ssimple:
+      return NID_sphincsshake256ssimple;
 ///// OQS_TEMPLATE_FRAGMENT_ASSIGN_OQS_NID_END
     default:
       return 0;
@@ -460,10 +537,35 @@ static int get_oqs_security_bits(int openssl_nid)
     case NID_sphincssha2192fsimple:
     case NID_p384_sphincssha2192fsimple:
       return 192;
+    case NID_sphincssha2192ssimple:
+    case NID_p384_sphincssha2192ssimple:
+      return 192;
+    case NID_sphincssha2256fsimple:
+    case NID_p521_sphincssha2256fsimple:
+      return 256;
+    case NID_sphincssha2256ssimple:
+    case NID_p521_sphincssha2256ssimple:
+      return 256;
     case NID_sphincsshake128fsimple:
     case NID_p256_sphincsshake128fsimple:
     case NID_rsa3072_sphincsshake128fsimple:
       return 128;
+    case NID_sphincsshake128ssimple:
+    case NID_p256_sphincsshake128ssimple:
+    case NID_rsa3072_sphincsshake128ssimple:
+      return 128;
+    case NID_sphincsshake192fsimple:
+    case NID_p384_sphincsshake192fsimple:
+      return 192;
+    case NID_sphincsshake192ssimple:
+    case NID_p384_sphincsshake192ssimple:
+      return 192;
+    case NID_sphincsshake256fsimple:
+    case NID_p521_sphincsshake256fsimple:
+      return 256;
+    case NID_sphincsshake256ssimple:
+    case NID_p521_sphincsshake256ssimple:
+      return 256;
 ///// OQS_TEMPLATE_FRAGMENT_GET_SIG_SECURITY_BITS_END
     default:
       return 0;
@@ -1056,9 +1158,26 @@ static int oqs_item_verify(EVP_MD_CTX *ctx, const ASN1_ITEM *it, void *asn,
         nid != NID_rsa3072_sphincssha2128ssimple &&
         nid != NID_sphincssha2192fsimple &&
         nid != NID_p384_sphincssha2192fsimple &&
+        nid != NID_sphincssha2192ssimple &&
+        nid != NID_p384_sphincssha2192ssimple &&
+        nid != NID_sphincssha2256fsimple &&
+        nid != NID_p521_sphincssha2256fsimple &&
+        nid != NID_sphincssha2256ssimple &&
+        nid != NID_p521_sphincssha2256ssimple &&
         nid != NID_sphincsshake128fsimple &&
         nid != NID_p256_sphincsshake128fsimple &&
         nid != NID_rsa3072_sphincsshake128fsimple &&
+        nid != NID_sphincsshake128ssimple &&
+        nid != NID_p256_sphincsshake128ssimple &&
+        nid != NID_rsa3072_sphincsshake128ssimple &&
+        nid != NID_sphincsshake192fsimple &&
+        nid != NID_p384_sphincsshake192fsimple &&
+        nid != NID_sphincsshake192ssimple &&
+        nid != NID_p384_sphincsshake192ssimple &&
+        nid != NID_sphincsshake256fsimple &&
+        nid != NID_p521_sphincsshake256fsimple &&
+        nid != NID_sphincsshake256ssimple &&
+        nid != NID_p521_sphincsshake256ssimple &&
         1 /* This is just to faciliate templating. */
 ///// OQS_TEMPLATE_FRAGMENT_CHECK_IF_KNOWN_NID_END
     ) || ptype != V_ASN1_UNDEF) {
@@ -1639,7 +1758,24 @@ DEFINE_OQS_EVP_METHODS(p256_sphincssha2128ssimple, NID_p256_sphincssha2128ssimpl
 DEFINE_OQS_EVP_METHODS(rsa3072_sphincssha2128ssimple, NID_rsa3072_sphincssha2128ssimple, "rsa3072_sphincssha2128ssimple", "OpenSSL RSA3072 SPHINCS+-SHA2-128s-simple algorithm")
 DEFINE_OQS_EVP_METHODS(sphincssha2192fsimple, NID_sphincssha2192fsimple, "sphincssha2192fsimple", "OpenSSL SPHINCS+-SHA2-192f-simple algorithm")
 DEFINE_OQS_EVP_METHODS(p384_sphincssha2192fsimple, NID_p384_sphincssha2192fsimple, "p384_sphincssha2192fsimple", "OpenSSL ECDSA p384 SPHINCS+-SHA2-192f-simple algorithm")
+DEFINE_OQS_EVP_METHODS(sphincssha2192ssimple, NID_sphincssha2192ssimple, "sphincssha2192ssimple", "OpenSSL SPHINCS+-SHA2-192s-simple algorithm")
+DEFINE_OQS_EVP_METHODS(p384_sphincssha2192ssimple, NID_p384_sphincssha2192ssimple, "p384_sphincssha2192ssimple", "OpenSSL ECDSA p384 SPHINCS+-SHA2-192s-simple algorithm")
+DEFINE_OQS_EVP_METHODS(sphincssha2256fsimple, NID_sphincssha2256fsimple, "sphincssha2256fsimple", "OpenSSL SPHINCS+-SHA2-256f-simple algorithm")
+DEFINE_OQS_EVP_METHODS(p521_sphincssha2256fsimple, NID_p521_sphincssha2256fsimple, "p521_sphincssha2256fsimple", "OpenSSL ECDSA p521 SPHINCS+-SHA2-256f-simple algorithm")
+DEFINE_OQS_EVP_METHODS(sphincssha2256ssimple, NID_sphincssha2256ssimple, "sphincssha2256ssimple", "OpenSSL SPHINCS+-SHA2-256s-simple algorithm")
+DEFINE_OQS_EVP_METHODS(p521_sphincssha2256ssimple, NID_p521_sphincssha2256ssimple, "p521_sphincssha2256ssimple", "OpenSSL ECDSA p521 SPHINCS+-SHA2-256s-simple algorithm")
 DEFINE_OQS_EVP_METHODS(sphincsshake128fsimple, NID_sphincsshake128fsimple, "sphincsshake128fsimple", "OpenSSL SPHINCS+-SHAKE-128f-simple algorithm")
 DEFINE_OQS_EVP_METHODS(p256_sphincsshake128fsimple, NID_p256_sphincsshake128fsimple, "p256_sphincsshake128fsimple", "OpenSSL ECDSA p256 SPHINCS+-SHAKE-128f-simple algorithm")
 DEFINE_OQS_EVP_METHODS(rsa3072_sphincsshake128fsimple, NID_rsa3072_sphincsshake128fsimple, "rsa3072_sphincsshake128fsimple", "OpenSSL RSA3072 SPHINCS+-SHAKE-128f-simple algorithm")
+DEFINE_OQS_EVP_METHODS(sphincsshake128ssimple, NID_sphincsshake128ssimple, "sphincsshake128ssimple", "OpenSSL SPHINCS+-SHAKE-128s-simple algorithm")
+DEFINE_OQS_EVP_METHODS(p256_sphincsshake128ssimple, NID_p256_sphincsshake128ssimple, "p256_sphincsshake128ssimple", "OpenSSL ECDSA p256 SPHINCS+-SHAKE-128s-simple algorithm")
+DEFINE_OQS_EVP_METHODS(rsa3072_sphincsshake128ssimple, NID_rsa3072_sphincsshake128ssimple, "rsa3072_sphincsshake128ssimple", "OpenSSL RSA3072 SPHINCS+-SHAKE-128s-simple algorithm")
+DEFINE_OQS_EVP_METHODS(sphincsshake192fsimple, NID_sphincsshake192fsimple, "sphincsshake192fsimple", "OpenSSL SPHINCS+-SHAKE-192f-simple algorithm")
+DEFINE_OQS_EVP_METHODS(p384_sphincsshake192fsimple, NID_p384_sphincsshake192fsimple, "p384_sphincsshake192fsimple", "OpenSSL ECDSA p384 SPHINCS+-SHAKE-192f-simple algorithm")
+DEFINE_OQS_EVP_METHODS(sphincsshake192ssimple, NID_sphincsshake192ssimple, "sphincsshake192ssimple", "OpenSSL SPHINCS+-SHAKE-192s-simple algorithm")
+DEFINE_OQS_EVP_METHODS(p384_sphincsshake192ssimple, NID_p384_sphincsshake192ssimple, "p384_sphincsshake192ssimple", "OpenSSL ECDSA p384 SPHINCS+-SHAKE-192s-simple algorithm")
+DEFINE_OQS_EVP_METHODS(sphincsshake256fsimple, NID_sphincsshake256fsimple, "sphincsshake256fsimple", "OpenSSL SPHINCS+-SHAKE-256f-simple algorithm")
+DEFINE_OQS_EVP_METHODS(p521_sphincsshake256fsimple, NID_p521_sphincsshake256fsimple, "p521_sphincsshake256fsimple", "OpenSSL ECDSA p521 SPHINCS+-SHAKE-256f-simple algorithm")
+DEFINE_OQS_EVP_METHODS(sphincsshake256ssimple, NID_sphincsshake256ssimple, "sphincsshake256ssimple", "OpenSSL SPHINCS+-SHAKE-256s-simple algorithm")
+DEFINE_OQS_EVP_METHODS(p521_sphincsshake256ssimple, NID_p521_sphincsshake256ssimple, "p521_sphincsshake256ssimple", "OpenSSL ECDSA p521 SPHINCS+-SHAKE-256s-simple algorithm")
 ///// OQS_TEMPLATE_FRAGMENT_DEFINE_OQS_EVP_METHS_END

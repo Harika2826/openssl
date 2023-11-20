@@ -32,7 +32,15 @@ signatures = [
     'sphincssha2128fsimple',
     'sphincssha2128ssimple',
     'sphincssha2192fsimple',
+    'sphincssha2192ssimple',
+    'sphincssha2256fsimple',
+    'sphincssha2256ssimple',
     'sphincsshake128fsimple',
+    'sphincsshake128ssimple',
+    'sphincsshake192fsimple',
+    'sphincsshake192ssimple',
+    'sphincsshake256fsimple',
+    'sphincsshake256ssimple',
 ##### OQS_TEMPLATE_FRAGMENT_PQ_SIG_ALGS_END
 ]
 

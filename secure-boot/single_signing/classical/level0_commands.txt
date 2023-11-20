@@ -1,0 +1,61 @@
+Commands for certificate generation, sig generation for secure boot files and verification
+
+-----------
+||LEVEL-0||
+-----------
+
+========================++++++++++++++++++++++++++============================
+
+--------------------------
+||ECDSA COMBINATIONS||  ----> at root, ica, leaf.
+--------------------------
+
+ecdsa
+
+apps/openssl req -x509 -new -newkey ec:<(apps/openssl ecparam -name secp384r1) -keyout ecdsa_CA_key.pem -out ecdsa_CA.pem -days 365 -config apps/openssl.cnf
+
+apps/openssl req -new -newkey ec:<(apps/openssl ecparam -name secp384r1) -keyout ecdsa_ica_key.pem -out ecdsa_ica.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in ecdsa_ica.csr -out ecdsa_ica.pem -CA ecdsa_CA.pem -CAkey ecdsa_CA_key.pem -CAcreateserial -days 365
+
+apps/openssl req -new -newkey ec:<(apps/openssl ecparam -name secp384r1) -keyout ecdsa_srv_key.pem -out ecdsa_srv.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in ecdsa_srv.csr -out ecdsa_srv.pem -CA ecdsa_ica.pem -CAkey ecdsa_ica_key.pem -CAcreateserial -days 365
+cat ecdsa_ica.pem ecdsa_srv.pem > ecdsa_combined.pem
+
+apps/openssl x509 -pubkey -noout -in ecdsa_CA.pem  > ecdsa_CA_pubkey.pem
+apps/openssl x509 -pubkey -noout -in ecdsa_ica.pem  > ecdsa_ica_pubkey.pem
+apps/openssl x509 -pubkey -noout -in ecdsa_srv.pem  > ecdsa_srv_pubkey.pem
+
+
+bash new_sign0.sh f0.zip f1.img.xz f2.zip ecdsa_CA_key.pem ecdsa_ica_key.pem ecdsa_srv_key.pem
+
+valgrind bash new_verify0.sh f0.zip f1.img.xz f2.zip signature.sha256 signaturea.sha256 signatureb.sha256 ecdsa_CA_pubkey.pem ecdsa_ica_pubkey.pem ecdsa_srv_pubkey.pem ecdsa_CA.pem ecdsa_ica.pem ecdsa_combined.pem
+
+valgrind bash new_verify1_0.sh f0.zip f1.img.xz f2.zip signature.sha256 signaturea.sha256 signatureb.sha256 ecdsa_CA_pubkey.pem ecdsa_ica_pubkey.pem ecdsa_srv_pubkey.pem ecdsa_CA.pem ecdsa_ica.pem ecdsa_combined.pem
+
+==================================++++++++++++++++++++++++++++====================================
+
+----------
+||RSA||   ---->at root, ica and leaf.
+---------
+
+rsa
+
+apps/openssl req -x509 -new -newkey rsa -keyout rsa_CA_key.pem -out rsa_CA.pem -days 365 -config apps/openssl.cnf
+
+apps/openssl req -new -newkey rsa -keyout rsa_ica_key.pem -out rsa_ica.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in rsa_ica.csr -out rsa_ica.pem -CA rsa_CA.pem -CAkey rsa_CA_key.pem -CAcreateserial -days 365
+
+apps/openssl req -new -newkey rsa -keyout rsa_srv_key.pem -out rsa_srv.csr -config apps/openssl.cnf
+apps/openssl x509 -req -in rsa_srv.csr -out rsa_srv.pem -CA rsa_ica.pem -CAkey rsa_ica_key.pem -CAcreateserial -days 365
+cat rsa_ica.pem rsa_srv.pem > rsa_combined.pem
+
+apps/openssl x509 -pubkey -noout -in rsa_CA.pem  > rsa_CA_pubkey.pem
+apps/openssl x509 -pubkey -noout -in rsa_ica.pem  > rsa_ica_pubkey.pem
+apps/openssl x509 -pubkey -noout -in rsa_srv.pem  > rsa_srv_pubkey.pem
+
+
+bash new_sign0.sh f0.zip f1.img.xz f2.zip rsa_CA_key.pem rsa_ica_key.pem rsa_srv_key.pem
+
+valgrind bash new_verify0.sh f0.zip f1.img.xz f2.zip signature.sha256 signaturea.sha256 signatureb.sha256 rsa_CA_pubkey.pem rsa_ica_pubkey.pem rsa_srv_pubkey.pem rsa_CA.pem rsa_ica.pem rsa_combined.pem
+
+valgrind bash new_verify1_0.sh f0.zip f1.img.xz f2.zip signature.sha256 signaturea.sha256 signatureb.sha256 rsa_CA_pubkey.pem rsa_ica_pubkey.pem rsa_srv_pubkey.pem rsa_CA.pem rsa_ica.pem rsa_combined.pem

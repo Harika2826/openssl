@@ -859,9 +859,26 @@ static const uint16_t tls12_sigalgs[] = {
     TLSEXT_SIGALG_rsa3072_sphincssha2128ssimple,
     TLSEXT_SIGALG_sphincssha2192fsimple,
     TLSEXT_SIGALG_p384_sphincssha2192fsimple,
+    TLSEXT_SIGALG_sphincssha2192ssimple,
+    TLSEXT_SIGALG_p384_sphincssha2192ssimple,
+    TLSEXT_SIGALG_sphincssha2256fsimple,
+    TLSEXT_SIGALG_p521_sphincssha2256fsimple,
+    TLSEXT_SIGALG_sphincssha2256ssimple,
+    TLSEXT_SIGALG_p521_sphincssha2256ssimple,
     TLSEXT_SIGALG_sphincsshake128fsimple,
     TLSEXT_SIGALG_p256_sphincsshake128fsimple,
     TLSEXT_SIGALG_rsa3072_sphincsshake128fsimple,
+    TLSEXT_SIGALG_sphincsshake128ssimple,
+    TLSEXT_SIGALG_p256_sphincsshake128ssimple,
+    TLSEXT_SIGALG_rsa3072_sphincsshake128ssimple,
+    TLSEXT_SIGALG_sphincsshake192fsimple,
+    TLSEXT_SIGALG_p384_sphincsshake192fsimple,
+    TLSEXT_SIGALG_sphincsshake192ssimple,
+    TLSEXT_SIGALG_p384_sphincsshake192ssimple,
+    TLSEXT_SIGALG_sphincsshake256fsimple,
+    TLSEXT_SIGALG_p521_sphincsshake256fsimple,
+    TLSEXT_SIGALG_sphincsshake256ssimple,
+    TLSEXT_SIGALG_p521_sphincsshake256ssimple,
 ///// OQS_TEMPLATE_FRAGMENT_DEFINE_TLS12_SIGALGS_END
 
     TLSEXT_SIGALG_rsa_pss_pss_sha256,
@@ -1052,6 +1069,24 @@ static const SIGALG_LOOKUP sigalg_lookup_tbl[] = {
     {"p384_sphincssha2192fsimple", TLSEXT_SIGALG_p384_sphincssha2192fsimple,
      NID_undef, -1, EVP_PKEY_P384_SPHINCSSHA2192FSIMPLE, SSL_PKEY_P384_SPHINCSSHA2192FSIMPLE,
      NID_undef, NID_undef},
+    {"sphincssha2192ssimple", TLSEXT_SIGALG_sphincssha2192ssimple,
+     NID_undef, -1, EVP_PKEY_SPHINCSSHA2192SSIMPLE, SSL_PKEY_SPHINCSSHA2192SSIMPLE,
+     NID_undef, NID_undef},
+    {"p384_sphincssha2192ssimple", TLSEXT_SIGALG_p384_sphincssha2192ssimple,
+     NID_undef, -1, EVP_PKEY_P384_SPHINCSSHA2192SSIMPLE, SSL_PKEY_P384_SPHINCSSHA2192SSIMPLE,
+     NID_undef, NID_undef},
+    {"sphincssha2256fsimple", TLSEXT_SIGALG_sphincssha2256fsimple,
+     NID_undef, -1, EVP_PKEY_SPHINCSSHA2256FSIMPLE, SSL_PKEY_SPHINCSSHA2256FSIMPLE,
+     NID_undef, NID_undef},
+    {"p521_sphincssha2256fsimple", TLSEXT_SIGALG_p521_sphincssha2256fsimple,
+     NID_undef, -1, EVP_PKEY_P521_SPHINCSSHA2256FSIMPLE, SSL_PKEY_P521_SPHINCSSHA2256FSIMPLE,
+     NID_undef, NID_undef},
+    {"sphincssha2256ssimple", TLSEXT_SIGALG_sphincssha2256ssimple,
+     NID_undef, -1, EVP_PKEY_SPHINCSSHA2256SSIMPLE, SSL_PKEY_SPHINCSSHA2256SSIMPLE,
+     NID_undef, NID_undef},
+    {"p521_sphincssha2256ssimple", TLSEXT_SIGALG_p521_sphincssha2256ssimple,
+     NID_undef, -1, EVP_PKEY_P521_SPHINCSSHA2256SSIMPLE, SSL_PKEY_P521_SPHINCSSHA2256SSIMPLE,
+     NID_undef, NID_undef},
     {"sphincsshake128fsimple", TLSEXT_SIGALG_sphincsshake128fsimple,
      NID_undef, -1, EVP_PKEY_SPHINCSSHAKE128FSIMPLE, SSL_PKEY_SPHINCSSHAKE128FSIMPLE,
      NID_undef, NID_undef},
@@ -1060,6 +1095,39 @@ static const SIGALG_LOOKUP sigalg_lookup_tbl[] = {
      NID_undef, NID_undef},
     {"rsa3072_sphincsshake128fsimple", TLSEXT_SIGALG_rsa3072_sphincsshake128fsimple,
      NID_undef, -1, EVP_PKEY_RSA3072_SPHINCSSHAKE128FSIMPLE, SSL_PKEY_RSA3072_SPHINCSSHAKE128FSIMPLE,
+     NID_undef, NID_undef},
+    {"sphincsshake128ssimple", TLSEXT_SIGALG_sphincsshake128ssimple,
+     NID_undef, -1, EVP_PKEY_SPHINCSSHAKE128SSIMPLE, SSL_PKEY_SPHINCSSHAKE128SSIMPLE,
+     NID_undef, NID_undef},
+    {"p256_sphincsshake128ssimple", TLSEXT_SIGALG_p256_sphincsshake128ssimple,
+     NID_undef, -1, EVP_PKEY_P256_SPHINCSSHAKE128SSIMPLE, SSL_PKEY_P256_SPHINCSSHAKE128SSIMPLE,
+     NID_undef, NID_undef},
+    {"rsa3072_sphincsshake128ssimple", TLSEXT_SIGALG_rsa3072_sphincsshake128ssimple,
+     NID_undef, -1, EVP_PKEY_RSA3072_SPHINCSSHAKE128SSIMPLE, SSL_PKEY_RSA3072_SPHINCSSHAKE128SSIMPLE,
+     NID_undef, NID_undef},
+    {"sphincsshake192fsimple", TLSEXT_SIGALG_sphincsshake192fsimple,
+     NID_undef, -1, EVP_PKEY_SPHINCSSHAKE192FSIMPLE, SSL_PKEY_SPHINCSSHAKE192FSIMPLE,
+     NID_undef, NID_undef},
+    {"p384_sphincsshake192fsimple", TLSEXT_SIGALG_p384_sphincsshake192fsimple,
+     NID_undef, -1, EVP_PKEY_P384_SPHINCSSHAKE192FSIMPLE, SSL_PKEY_P384_SPHINCSSHAKE192FSIMPLE,
+     NID_undef, NID_undef},
+    {"sphincsshake192ssimple", TLSEXT_SIGALG_sphincsshake192ssimple,
+     NID_undef, -1, EVP_PKEY_SPHINCSSHAKE192SSIMPLE, SSL_PKEY_SPHINCSSHAKE192SSIMPLE,
+     NID_undef, NID_undef},
+    {"p384_sphincsshake192ssimple", TLSEXT_SIGALG_p384_sphincsshake192ssimple,
+     NID_undef, -1, EVP_PKEY_P384_SPHINCSSHAKE192SSIMPLE, SSL_PKEY_P384_SPHINCSSHAKE192SSIMPLE,
+     NID_undef, NID_undef},
+    {"sphincsshake256fsimple", TLSEXT_SIGALG_sphincsshake256fsimple,
+     NID_undef, -1, EVP_PKEY_SPHINCSSHAKE256FSIMPLE, SSL_PKEY_SPHINCSSHAKE256FSIMPLE,
+     NID_undef, NID_undef},
+    {"p521_sphincsshake256fsimple", TLSEXT_SIGALG_p521_sphincsshake256fsimple,
+     NID_undef, -1, EVP_PKEY_P521_SPHINCSSHAKE256FSIMPLE, SSL_PKEY_P521_SPHINCSSHAKE256FSIMPLE,
+     NID_undef, NID_undef},
+    {"sphincsshake256ssimple", TLSEXT_SIGALG_sphincsshake256ssimple,
+     NID_undef, -1, EVP_PKEY_SPHINCSSHAKE256SSIMPLE, SSL_PKEY_SPHINCSSHAKE256SSIMPLE,
+     NID_undef, NID_undef},
+    {"p521_sphincsshake256ssimple", TLSEXT_SIGALG_p521_sphincsshake256ssimple,
+     NID_undef, -1, EVP_PKEY_P521_SPHINCSSHAKE256SSIMPLE, SSL_PKEY_P521_SPHINCSSHAKE256SSIMPLE,
      NID_undef, NID_undef},
 ///// OQS_TEMPLATE_FRAGMENT_POPULATE_SIGALG_TBL_END
 };
@@ -1344,12 +1412,46 @@ static int sigalg_security_bits(const SIGALG_LOOKUP *lu)
             secbits = 192;
         else if(lu->sigalg == TLSEXT_SIGALG_p384_sphincssha2192fsimple)
             secbits = 192;
+        else if(lu->sigalg == TLSEXT_SIGALG_sphincssha2192ssimple)
+            secbits = 192;
+        else if(lu->sigalg == TLSEXT_SIGALG_p384_sphincssha2192ssimple)
+            secbits = 192;
+        else if(lu->sigalg == TLSEXT_SIGALG_sphincssha2256fsimple)
+            secbits = 256;
+        else if(lu->sigalg == TLSEXT_SIGALG_p521_sphincssha2256fsimple)
+            secbits = 256;
+        else if(lu->sigalg == TLSEXT_SIGALG_sphincssha2256ssimple)
+            secbits = 256;
+        else if(lu->sigalg == TLSEXT_SIGALG_p521_sphincssha2256ssimple)
+            secbits = 256;
         else if(lu->sigalg == TLSEXT_SIGALG_sphincsshake128fsimple)
             secbits = 128;
         else if(lu->sigalg == TLSEXT_SIGALG_p256_sphincsshake128fsimple)
             secbits = 128;
         else if(lu->sigalg == TLSEXT_SIGALG_rsa3072_sphincsshake128fsimple)
             secbits = 128;
+        else if(lu->sigalg == TLSEXT_SIGALG_sphincsshake128ssimple)
+            secbits = 128;
+        else if(lu->sigalg == TLSEXT_SIGALG_p256_sphincsshake128ssimple)
+            secbits = 128;
+        else if(lu->sigalg == TLSEXT_SIGALG_rsa3072_sphincsshake128ssimple)
+            secbits = 128;
+        else if(lu->sigalg == TLSEXT_SIGALG_sphincsshake192fsimple)
+            secbits = 192;
+        else if(lu->sigalg == TLSEXT_SIGALG_p384_sphincsshake192fsimple)
+            secbits = 192;
+        else if(lu->sigalg == TLSEXT_SIGALG_sphincsshake192ssimple)
+            secbits = 192;
+        else if(lu->sigalg == TLSEXT_SIGALG_p384_sphincsshake192ssimple)
+            secbits = 192;
+        else if(lu->sigalg == TLSEXT_SIGALG_sphincsshake256fsimple)
+            secbits = 256;
+        else if(lu->sigalg == TLSEXT_SIGALG_p521_sphincsshake256fsimple)
+            secbits = 256;
+        else if(lu->sigalg == TLSEXT_SIGALG_sphincsshake256ssimple)
+            secbits = 256;
+        else if(lu->sigalg == TLSEXT_SIGALG_p521_sphincsshake256ssimple)
+            secbits = 256;
 ///// OQS_TEMPLATE_FRAGMENT_MAP_SIGALG_TO_BIT_SECURITY_END
     }
     return secbits;
@@ -2786,9 +2888,26 @@ void tls1_set_cert_validity(SSL *s)
     tls1_check_chain(s, NULL, NULL, NULL, SSL_PKEY_RSA3072_SPHINCSSHA2128SSIMPLE);
     tls1_check_chain(s, NULL, NULL, NULL, SSL_PKEY_SPHINCSSHA2192FSIMPLE);
     tls1_check_chain(s, NULL, NULL, NULL, SSL_PKEY_P384_SPHINCSSHA2192FSIMPLE);
+    tls1_check_chain(s, NULL, NULL, NULL, SSL_PKEY_SPHINCSSHA2192SSIMPLE);
+    tls1_check_chain(s, NULL, NULL, NULL, SSL_PKEY_P384_SPHINCSSHA2192SSIMPLE);
+    tls1_check_chain(s, NULL, NULL, NULL, SSL_PKEY_SPHINCSSHA2256FSIMPLE);
+    tls1_check_chain(s, NULL, NULL, NULL, SSL_PKEY_P521_SPHINCSSHA2256FSIMPLE);
+    tls1_check_chain(s, NULL, NULL, NULL, SSL_PKEY_SPHINCSSHA2256SSIMPLE);
+    tls1_check_chain(s, NULL, NULL, NULL, SSL_PKEY_P521_SPHINCSSHA2256SSIMPLE);
     tls1_check_chain(s, NULL, NULL, NULL, SSL_PKEY_SPHINCSSHAKE128FSIMPLE);
     tls1_check_chain(s, NULL, NULL, NULL, SSL_PKEY_P256_SPHINCSSHAKE128FSIMPLE);
     tls1_check_chain(s, NULL, NULL, NULL, SSL_PKEY_RSA3072_SPHINCSSHAKE128FSIMPLE);
+    tls1_check_chain(s, NULL, NULL, NULL, SSL_PKEY_SPHINCSSHAKE128SSIMPLE);
+    tls1_check_chain(s, NULL, NULL, NULL, SSL_PKEY_P256_SPHINCSSHAKE128SSIMPLE);
+    tls1_check_chain(s, NULL, NULL, NULL, SSL_PKEY_RSA3072_SPHINCSSHAKE128SSIMPLE);
+    tls1_check_chain(s, NULL, NULL, NULL, SSL_PKEY_SPHINCSSHAKE192FSIMPLE);
+    tls1_check_chain(s, NULL, NULL, NULL, SSL_PKEY_P384_SPHINCSSHAKE192FSIMPLE);
+    tls1_check_chain(s, NULL, NULL, NULL, SSL_PKEY_SPHINCSSHAKE192SSIMPLE);
+    tls1_check_chain(s, NULL, NULL, NULL, SSL_PKEY_P384_SPHINCSSHAKE192SSIMPLE);
+    tls1_check_chain(s, NULL, NULL, NULL, SSL_PKEY_SPHINCSSHAKE256FSIMPLE);
+    tls1_check_chain(s, NULL, NULL, NULL, SSL_PKEY_P521_SPHINCSSHAKE256FSIMPLE);
+    tls1_check_chain(s, NULL, NULL, NULL, SSL_PKEY_SPHINCSSHAKE256SSIMPLE);
+    tls1_check_chain(s, NULL, NULL, NULL, SSL_PKEY_P521_SPHINCSSHAKE256SSIMPLE);
 ///// OQS_TEMPLATE_FRAGMENT_ADD_CERT_CHAIN_CHECKS_END
 }
 
